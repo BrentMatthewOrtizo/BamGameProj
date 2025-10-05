@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     private bool isPaused;
     
     //Closing Pause Menu
+    private Button resumeButton;
     private Button exitButton;
     
 
@@ -16,12 +18,14 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI = GameObject.FindWithTag("PauseMenu");
         
         pauseButton = GameObject.FindWithTag("PauseButton").GetComponent<Button>();
-        exitButton = GameObject.FindWithTag("ExitButton").GetComponent<Button>();
+        resumeButton = GameObject.FindWithTag("ResumeButton").GetComponent<Button>();
+        exitButton =  GameObject.FindWithTag("ExitButton").GetComponent<Button>();
 
         isPaused = true;
         pauseMenuUI.SetActive(!isPaused);
         
         pauseButton.onClick.AddListener(PauseButtonClicked);
+        resumeButton.onClick.AddListener(ResumeButtonClicked);
         exitButton.onClick.AddListener(ExitButtonClicked);
     }
     void PauseButtonClicked()
@@ -33,7 +37,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
     
-    void ExitButtonClicked()
+    void ResumeButtonClicked()
     {
         // disable Pause Menu
         if (isPaused)
@@ -44,9 +48,14 @@ public class PauseMenu : MonoBehaviour
         isPaused = true; //set up for next pause button conditions
     }
     
+    void ExitButtonClicked()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
     void OnDestroy()
     {
-        // when does OnDestroy get called?
-        //pauseButton.onClick.RemoveListener(PauseButtonClicked);
+        pauseButton.onClick.RemoveListener(PauseButtonClicked);
+        resumeButton.onClick.RemoveListener(ResumeButtonClicked);
+        exitButton.onClick.RemoveListener(ExitButtonClicked);
     }
 }
