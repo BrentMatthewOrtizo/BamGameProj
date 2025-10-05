@@ -4,8 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - OptionsPanel
   - PauseButton
+  - PauseMenu
+  - ExitButton
+  - Instructions
+  - ResumeButton
   layers:
   - Default
   - TransparentFX

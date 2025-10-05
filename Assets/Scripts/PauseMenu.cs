@@ -3,24 +3,50 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuUI; //assign this to optional panel to set it to visible later
+    //Opening Pause Menu
+    private GameObject pauseMenuUI;
+    private Button pauseButton;
+    private bool isPaused;
     
-    //use this for onClick event to make options panel toggle from not visible to visible
-    //private Button pauseButton;
-
+    //Closing Pause Menu
+    private Button exitButton;
+    
 
     void Start() {
-        //check if this is right or if i need to put it in AWAKE
-        //pauseButton = GameObject.FindWithTag("PauseButton").GetComponent<Button>(); 
+        pauseMenuUI = GameObject.FindWithTag("PauseMenu");
         
-        //pauseMenuUI = GameObject.FindWithTag("OptionsPanel");
+        pauseButton = GameObject.FindWithTag("PauseButton").GetComponent<Button>();
+        exitButton = GameObject.FindWithTag("ExitButton").GetComponent<Button>();
+
+        isPaused = true;
+        pauseMenuUI.SetActive(!isPaused);
         
-        //this for sure goes here
-        //pauseButton.onClick.AddListener(PauseMenuClicked);
+        pauseButton.onClick.AddListener(PauseButtonClicked);
+        exitButton.onClick.AddListener(ExitButtonClicked);
     }
-    public void PauseMenuClicked()
+    void PauseButtonClicked()
     {
-        // set options menu to visible
-        pauseMenuUI.SetActive(true);
+        // set Pause Menu to visible
+        if (isPaused)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+    }
+    
+    void ExitButtonClicked()
+    {
+        // disable Pause Menu
+        if (isPaused)
+        {
+            isPaused = false;
+            pauseMenuUI.SetActive(isPaused);
+        }
+        isPaused = true; //set up for next pause button conditions
+    }
+    
+    void OnDestroy()
+    {
+        // when does OnDestroy get called?
+        //pauseButton.onClick.RemoveListener(PauseButtonClicked);
     }
 }
