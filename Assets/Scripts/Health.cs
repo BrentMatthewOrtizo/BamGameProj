@@ -1,10 +1,11 @@
 using UnityEngine;
 
-//attach script to monster Object
+//attach script to character object
 public class Health : MonoBehaviour
 {
-    public int  maxHealth;
-    public int currentHealth;
+    public float  maxHealth;
+    public float currentHealth;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour
         }
     }
 
+    //put this is food script (food heals monsters by x amount)
     void Heal(int amount)
     {
         currentHealth += amount;
@@ -33,6 +35,7 @@ public class Health : MonoBehaviour
         }
     }
     
+    //put this in script for items that could upgrade your monster's max health
     void UpgradeMaxHealth(int amount)
     {
         maxHealth += amount;

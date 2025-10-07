@@ -141,8 +141,8 @@ MonoBehaviour:
     y: 0
     width: 200
     height: 772
-  m_MinSize: {x: 201, y: 226}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -245,8 +245,8 @@ MonoBehaviour:
     y: 0
     width: 734
     height: 514
-  m_MinSize: {x: 202, y: 226}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 16}
@@ -272,8 +272,8 @@ MonoBehaviour:
     y: 514
     width: 734
     height: 258
-  m_MinSize: {x: 52, y: 76}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -326,8 +326,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1
-    y: 24
+    x: 407
+    y: 102
     width: 732
     height: 488
   m_SerializedDataModeController:
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 102
     width: 199
     height: 746
   m_SerializedDataModeController:
@@ -493,8 +493,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1
-    y: 24
+    x: 200
+    y: 102
     width: 205
     height: 746
   m_SerializedDataModeController:
@@ -537,7 +537,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 0000000072b7000074b7000076b7000078b700007ab700007cb700007eb7000080b7000082b7000084b7000086b70000
+    m_ExpandedIDs: 0000000048b700004ab700004cb70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -566,21 +566,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000072b7000074b7000076b7000078b700007ab700007cb700007eb7000080b7000082b7000084b7000086b70000
+    m_ExpandedIDs: ffffffff0000000048b700004ab700004cb700008eb80000fab90000b0ba0000b4ba0000b6ba0000b8ba0000baba0000bcba0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Health
+      m_OriginalName: Health
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 47324
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 8}
@@ -1309,8 +1309,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1
-    y: 538
+    x: 407
+    y: 616
     width: 732
     height: 232
   m_SerializedDataModeController:
@@ -1345,8 +1345,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1142
-    y: 24
+    x: 1141
+    y: 102
     width: 328
     height: 746
   m_SerializedDataModeController:
