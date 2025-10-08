@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class FillStatusBar : MonoBehaviour
 {
     public Health characterHealth;
-    public Image healthBar;
+    public Image fillBackground;
 
     private Slider slider;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,5 +18,10 @@ public class FillStatusBar : MonoBehaviour
     {
         float fillValue = characterHealth.currentHealth / characterHealth.maxHealth;
         slider.value = fillValue;
+
+        if (slider.value <= slider.minValue)
+        {
+            slider.value = slider.minValue;
+        }
     }
 }
