@@ -21,8 +21,8 @@ public class PauseMenu : MonoBehaviour
         resumeButton = GameObject.FindWithTag("ResumeButton").GetComponent<Button>();
         exitButton =  GameObject.FindWithTag("ExitButton").GetComponent<Button>();
 
-        isPaused = true;
-        pauseMenuUI.SetActive(!isPaused);
+        isPaused = false; 
+        pauseMenuUI.SetActive(isPaused); 
         
         pauseButton.onClick.AddListener(PauseButtonClicked);
         resumeButton.onClick.AddListener(ResumeButtonClicked);
@@ -31,9 +31,10 @@ public class PauseMenu : MonoBehaviour
     void PauseButtonClicked()
     {
         // set Pause Menu to visible
-        if (isPaused)
+        if (!isPaused) 
         {
             pauseMenuUI.SetActive(true);
+            isPaused = true; 
         }
     }
     
@@ -42,20 +43,19 @@ public class PauseMenu : MonoBehaviour
         // disable Pause Menu
         if (isPaused)
         {
+            pauseMenuUI.SetActive(false);
             isPaused = false;
-            pauseMenuUI.SetActive(isPaused);
         }
-        isPaused = true; //set up for next pause button conditions
     }
     
     void ExitButtonClicked()
     {
-        SceneManager.LoadSceneAsync(0);
+        if (isPaused)
+        {
+            SceneManager.LoadSceneAsync(0);
+            pauseMenuUI.SetActive(false);
+            isPaused = false;
+        }
     }
-    void OnDestroy()
-    {
-        pauseButton.onClick.RemoveListener(PauseButtonClicked);
-        resumeButton.onClick.RemoveListener(ResumeButtonClicked);
-        exitButton.onClick.RemoveListener(ExitButtonClicked);
-    }
+    
 }

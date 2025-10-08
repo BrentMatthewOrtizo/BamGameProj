@@ -6562,18 +6562,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543181589}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8811952, y: 0.8811952, z: 0.88119507}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 620817687}
   - {fileID: 1944050263}
-  m_Father: {fileID: 1033935054}
+  m_Father: {fileID: 1954286361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 255.9, y: -98.6}
+  m_AnchoredPosition: {x: 225.49783, y: -86.88571}
   m_SizeDelta: {x: 235.3874, y: 46.8742}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543181591
@@ -6588,7 +6588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798231c504f414bf79946019a2aac7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FillStatusBar
-  characterHealth: {fileID: 389054121}
   fillBackground: {fileID: 0}
 --- !u!114 &543181592
 MonoBehaviour:
@@ -7257,7 +7256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1033935054
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7269,8 +7268,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 543181590}
+  m_Children: []
   m_Father: {fileID: 389054127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7368,7 +7366,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073638768}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7918,7 +7916,7 @@ Transform:
   m_GameObject: {fileID: 1332644091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3747833, y: -2.83211, z: -10}
+  m_LocalPosition: {x: -3.3746812, y: -2.83211, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8644,6 +8642,7 @@ GameObject:
   - component: {fileID: 1954286360}
   - component: {fileID: 1954286359}
   - component: {fileID: 1954286358}
+  - component: {fileID: 1954286362}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -8728,6 +8727,7 @@ RectTransform:
   m_Children:
   - {fileID: 1073638769}
   - {fileID: 1723274234}
+  - {fileID: 543181590}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8735,6 +8735,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1954286362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954286357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254285e45fd344dcb98eda3466a2605a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConstantUI
+  healthBar: {fileID: 543181591}
 --- !u!1 &1985351237
 GameObject:
   m_ObjectHideFlags: 0
