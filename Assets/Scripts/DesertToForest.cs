@@ -1,10 +1,19 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; //make 
 
 public class DesertToForest : MonoBehaviour, IInteractable
 {
-    public Transform teleportDestination; // assign in inspector
+    //Teleports user to next scene/biome
+    private Scene currentScene;
+    private int sceneIndex; 
     private bool isUnlocked => KeyPickup.HasKey; // checks key collected
 
+    void Start()
+    {
+        currentScene =  SceneManager.GetActiveScene();
+        sceneIndex =  currentScene.buildIndex;
+        Debug.Log("currently in Scene " + sceneIndex);
+    }
     public bool CanInteract()
     {
         return isUnlocked; // only allow interaction if key is collected
@@ -14,12 +23,11 @@ public class DesertToForest : MonoBehaviour, IInteractable
     {
         if (!CanInteract()) return;
 
-        // Teleport player
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null && teleportDestination != null)
-        {
-            player.transform.position = teleportDestination.position;
-            Debug.Log("Teleported to forest!");
-        }
+        // Teleport player to next biome
+        sceneIndex++;
+        SceneManager.LoadSceneAsync(sceneIndex);
+        Debug.Log("Teleported to scene " + sceneIndex);
+        
     }
+    
 }
