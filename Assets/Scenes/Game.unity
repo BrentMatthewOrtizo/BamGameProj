@@ -1228,7 +1228,7 @@ Transform:
   m_GameObject: {fileID: 258501117}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.368, y: -4.35, z: -10}
+  m_LocalPosition: {x: -11.28, y: -4.35, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6551,7 +6551,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3747833, y: -2.83211, z: -10}
+  m_LocalPosition: {x: -7.0057664, y: -2.83971, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6881,7 +6881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &717031753
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6949,7 +6949,7 @@ Transform:
   m_GameObject: {fileID: 717031752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.79, y: -4.17, z: 0}
+  m_LocalPosition: {x: -11.24, y: -4.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7081,7 +7081,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 187.69366, y: -88.43713}
+  m_AnchoredPosition: {x: 255.9, y: -98.600006}
   m_SizeDelta: {x: 235.3874, y: 46.8742}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &993856424
@@ -7701,7 +7701,7 @@ Transform:
   m_GameObject: {fileID: 1335466815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.368, y: -4.35, z: 0}
+  m_LocalPosition: {x: -11.28, y: -4.35, z: 0}
   m_LocalScale: {x: 0.8361, y: 0.8971, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8339,7 +8339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e374ae4ed6d0f5a41a520b1fd9ce4171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DesertToForest
-  teleportDestination: {fileID: 717031754}
 --- !u!1 &2126738651
 GameObject:
   m_ObjectHideFlags: 0
