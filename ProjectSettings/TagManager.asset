@@ -47,11 +47,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Back
+    uniqueID: 77194865
+    locked: 0
+  - name: 2Back
+    uniqueID: 1022540939
+    locked: 0
+  - name: 3Back
+    uniqueID: 721350569
+    locked: 0
+  - name: WalkInFront
+    uniqueID: 1063262615
+    locked: 0
   - name: Ground
     uniqueID: 2858821373
     locked: 0
   - name: Decor
-    uniqueID: 1063262615
+    uniqueID: 1271174673
     locked: 0
   - name: Player
     uniqueID: 3223560053
