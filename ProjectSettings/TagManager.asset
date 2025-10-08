@@ -9,6 +9,7 @@ TagManager:
   - ExitButton
   - Instructions
   - ResumeButton
+  - Food
   layers:
   - Default
   - TransparentFX
