@@ -16832,6 +16832,7 @@ GameObject:
   - component: {fileID: 1335466821}
   - component: {fileID: 1335466822}
   - component: {fileID: 1335466823}
+  - component: {fileID: 1335466824}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -16886,7 +16887,7 @@ SpriteRenderer:
   m_SortingLayerID: -1071407243
   m_SortingLayer: 7
   m_SortingOrder: 1
-  m_Sprite: {fileID: 6755236944495837895, guid: 731780d914e136d4abb2e0cf91b7e11d, type: 3}
+  m_Sprite: {fileID: 1570582575325527468, guid: be791f2087d0a494b90ccfc91903e2a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17072,6 +17073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cb14550d1237d408f4c54b7bebf33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  animator: {fileID: 1335466824}
   moveSpeed: 5
   rb: {fileID: 1335466818}
   jumpPower: 17
@@ -17118,7 +17120,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0625, y: 1}
+    oldSize: {x: 0.53125, y: 0.875}
     newSize: {x: 1.0625, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -17153,6 +17155,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   itemCount: 0
+--- !u!95 &1335466824
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335466815}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5199f454cafdfbd4fb6d017f289ea777, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1463643835
 GameObject:
   m_ObjectHideFlags: 0
