@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
     }
@@ -33,15 +33,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (IsGrounded())
+        // Jump when pressed
+        if (context.performed && IsGrounded())
         {
-            if (context.performed)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
-            } else if (context.canceled)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
-            }
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+        }
+
+        // Shorten jump when released (only if still moving upward)
+        if (context.canceled && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
         }
     }
 
