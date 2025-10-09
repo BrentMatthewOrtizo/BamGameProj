@@ -33,9 +33,9 @@ namespace AutoBattler
         [Header("Player Party (Inspector)")]
         public List<PetConfig> playerPartyConfig = new()
         {
-            new PetConfig("Ant", 5,  Emblem.Sword, Emblem.Sword),
-            new PetConfig("Duck", 6, Emblem.Shield),
-            new PetConfig("Beaver", 7, Emblem.Magic, Emblem.Magic),
+            new PetConfig("Fox", 5,  Emblem.Sword, Emblem.Sword),
+            new PetConfig("Camel", 6, Emblem.Shield),
+            new PetConfig("Chimera", 7, Emblem.Magic, Emblem.Magic),
         };
 
         [Header("Enemy Party (Generated)")]
