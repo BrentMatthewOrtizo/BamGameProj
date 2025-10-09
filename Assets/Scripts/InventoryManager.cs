@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class InventoryManager : MonoBehaviour
 {
     public List<ItemClass> items = new List<ItemClass>();
+    //public List<Monsters> monsters = new List<Monster>();
     public ItemClass itemToAdd;
     public ItemClass itemToRemove; //after accessing inventory, select item and set it to this in order to remove it
     public void Start()
