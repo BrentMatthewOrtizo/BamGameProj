@@ -7911,8 +7911,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   items: []
+  monsters: []
   itemToAdd: {fileID: 0}
   itemToRemove: {fileID: 0}
+  monsterToAdd: {fileID: 0}
+  monsterToRemove: {fileID: 0}
 --- !u!1 &1615747640
 GameObject:
   m_ObjectHideFlags: 0
@@ -8188,8 +8191,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 300c05fea77c44057bcd8bdf52bc2c2c, type: 2}
   - {fileID: 11400000, guid: 1d3b3be1064294e0f9f4d32d602f7585, type: 2}
   - {fileID: 11400000, guid: 34ee77d9047384d37a1795ae97dec233, type: 2}
+  monsters:
+  - {fileID: 11400000, guid: 6a3221d10674f417c98f1d4eab03b0ce, type: 2}
   itemToAdd: {fileID: 0}
   itemToRemove: {fileID: 11400000, guid: 300c05fea77c44057bcd8bdf52bc2c2c, type: 2}
+  monsterToAdd: {fileID: 0}
+  monsterToRemove: {fileID: 11400000, guid: 6a3221d10674f417c98f1d4eab03b0ce, type: 2}
 --- !u!4 &1911155780
 Transform:
   m_ObjectHideFlags: 0
