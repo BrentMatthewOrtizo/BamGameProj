@@ -26,9 +26,7 @@ public class PersistantUI : MonoBehaviour
         character = GameObject.FindGameObjectWithTag("Player");
         if (character != null)
         {
-            Debug.Log("Player found: " + character.name);
             healthBar.SetCharacter(character);
-            Debug.Log("post set char method");
         }
     }
     void OnDestroy()

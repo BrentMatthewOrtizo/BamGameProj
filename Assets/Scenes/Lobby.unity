@@ -6095,7 +6095,6 @@ GameObject:
   - component: {fileID: 389054123}
   - component: {fileID: 389054122}
   - component: {fileID: 389054121}
-  - component: {fileID: 389054120}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -6103,19 +6102,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &389054120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389054119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9788dbcaa779e43cf87079ef2b6d0487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  itemCount: 0
 --- !u!114 &389054121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6746,6 +6732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f289d23758e47f9b962085fede61b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  consumable: {fileID: 11400000, guid: 300c05fea77c44057bcd8bdf52bc2c2c, type: 2}
 --- !u!61 &654699603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7620,7 +7607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1326297949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7933,26 +7920,13 @@ GameObject:
   - component: {fileID: 1350063339}
   - component: {fileID: 1350063338}
   - component: {fileID: 1350063337}
-  - component: {fileID: 1350063336}
   m_Layer: 0
   m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1350063336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350063335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e85d5533c9bb594f85f9d1b21669953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KeyPickup
+  m_IsActive: 0
 --- !u!61 &1350063337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8158,6 +8132,57 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.9503, y: -0.7707, z: 0}
   m_LocalScale: {x: 6.7491117, y: 6.3286347, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1590455178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590455180}
+  - component: {fileID: 1590455179}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Inventory
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1590455179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590455178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9788dbcaa779e43cf87079ef2b6d0487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
+  items:
+  - {fileID: 11400000, guid: f6441c0d9c1e646f7b247cf6c9b389b6, type: 2}
+  - {fileID: 11400000, guid: 300c05fea77c44057bcd8bdf52bc2c2c, type: 2}
+  - {fileID: 11400000, guid: 1d3b3be1064294e0f9f4d32d602f7585, type: 2}
+  - {fileID: 11400000, guid: 34ee77d9047384d37a1795ae97dec233, type: 2}
+  itemToAdd: {fileID: 0}
+  itemToRemove: {fileID: 11400000, guid: 300c05fea77c44057bcd8bdf52bc2c2c, type: 2}
+--- !u!4 &1590455180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590455178}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 685.00006, y: 467.0001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -9029,3 +9054,4 @@ SceneRoots:
   - {fileID: 1985351239}
   - {fileID: 1326297952}
   - {fileID: 1350063339}
+  - {fileID: 1590455180}

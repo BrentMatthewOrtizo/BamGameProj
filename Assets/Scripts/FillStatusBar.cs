@@ -5,16 +5,14 @@ using UnityEngine.SceneManagement;
 public class FillStatusBar : MonoBehaviour
 {
     private Health characterHealth;
-    //private GameObject character;
 
-    public Image fillBackground;
+    public Image fillBackground; //if we want to change background of health bar
 
     private Slider slider;
     
     public void SetCharacter(GameObject newCharacter)
     {
         characterHealth = newCharacter.GetComponent<Health>();
-        Debug.Log("end of set character method");
     }
     
     void Awake()
