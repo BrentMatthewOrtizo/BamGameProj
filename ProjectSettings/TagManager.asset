@@ -10,6 +10,7 @@ TagManager:
   - Instructions
   - ResumeButton
   - Food
+  - Inventory
   layers:
   - Default
   - TransparentFX
