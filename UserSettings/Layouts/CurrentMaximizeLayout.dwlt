@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 12038
+  controlID: 14922
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 12015
+  controlID: 14839
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: AnimationWindow
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -174,16 +174,16 @@ MonoBehaviour:
     y: 0
     width: 605.3333
     height: 334
-  m_MinSize: {x: 51, y: 76}
+  m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 8}
+  m_ActualView: {fileID: 5}
   m_Panes:
   - {fileID: 5}
   - {fileID: 6}
   - {fileID: 7}
   - {fileID: 8}
-  m_Selected: 3
-  m_LastSelected: 2
+  m_Selected: 0
+  m_LastSelected: 3
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -654,7 +654,7 @@ MonoBehaviour:
       sizeOverridden: 0
     - dockPosition: 1
       containerId: overlay-container--right
-      displayed: 1
+      displayed: 0
       id: Scene View/Tilemap Focus
       index: 0
       contents: '{"m_Layout":4,"m_Collapsed":false,"m_Folded":false,"m_Floating":false,"m_FloatingSnapOffset":{"x":0.0,"y":0.0},"m_SnapOffsetDelta":{"x":0.0,"y":0.0},"m_FloatingSnapCorner":0,"m_Size":{"x":0.0,"y":0.0},"m_SizeOverridden":false}'
@@ -777,9 +777,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -7.0994983, y: -3.4368494, z: -0.0017628598}
+    m_Target: {x: 48.91579, y: -3.980081, z: 0.0006743548}
     speed: 2
-    m_Value: {x: -7.0994983, y: -3.4368494, z: -0.0017628598}
+    m_Value: {x: 48.91579, y: -3.980081, z: 0.0006743548}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -815,9 +815,9 @@ MonoBehaviour:
       m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -829,9 +829,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.4564612
+    m_Target: 1.9232352
     speed: 2
-    m_Value: 3.4564612
+    m_Value: 1.9232352
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -940,6 +940,7 @@ MonoBehaviour:
   m_ViewTransforms:
     m_KeySerializationHelper:
     - {fileID: 6397371422108842888, guid: 5199f454cafdfbd4fb6d017f289ea777, type: 2}
+    - {fileID: -3006559404896355913, guid: 844f39f9ba533bb46bb1bae51ab45fe9, type: 2}
     m_ValueSerializationHelper:
     - e00: 0.56406397
       e01: 0
@@ -957,10 +958,26 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+    - e00: 0.44350874
+      e01: 0
+      e02: 0
+      e03: -7.1754303
+      e10: 0
+      e11: 0.44350874
+      e12: 0
+      e13: 96.635086
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 5199f454cafdfbd4fb6d017f289ea777, type: 2}
+  m_AnimatorController: {fileID: 9100000, guid: 844f39f9ba533bb46bb1bae51ab45fe9, type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 6397371422108842888, guid: 5199f454cafdfbd4fb6d017f289ea777, type: 2}
+  - m_Target: {fileID: -3006559404896355913, guid: 844f39f9ba533bb46bb1bae51ab45fe9, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -1011,7 +1028,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 50774
+  m_LastSelectedObjectID: 59866
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1105,7 +1122,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e0faffffaac5000030c60000
+      m_ExpandedIDs: 9eadffff70afffff30b1ffff54b3ffffc6b6ffffc2b7fffff4b8ffff1abafffffebaffffd0bbffff4abdffff40beffff54c5ffffc8f5ffff04fbfffff6cb00007ecc0000f0db000020dc0000bce60000ece6000024e70000b0e80000e0e80000e2e9000050ea0000d8ea0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1202,8 +1219,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Art/Character/PinkMonsterAnims
+    m_Folders: []
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1221,7 +1237,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: ffffffff00000000f0c60000f2c60000f6c60000f8c600001acd00001ccd00009cf20000faf300001ef40000
+    m_ExpandedIDs: ffffffff00000000e6c40000e8c40000eac40000ecc40000eec40000f0c400001ccb000026cb000028cb0000eeea0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1250,7 +1266,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000f0c60000f2c60000f6c60000f8c600001acd00001ccd00009cf20000faf30000
+    m_ExpandedIDs: ffffffff00000000e6c40000e8c40000eac40000ecc40000eec40000f0c400001ccb000026cb000028cb0000eeea0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
