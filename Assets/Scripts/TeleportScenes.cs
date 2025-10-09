@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; 
 
-public class DesertToForest : MonoBehaviour, IInteractable
+// I edited DesertToForest but I know manny did too so I put my scene changing logic with a key to a new class
+public class TeleportScenes : MonoBehaviour//, IInteractable
 {
     //Teleports user to next scene/biome
     private Scene currentScene;

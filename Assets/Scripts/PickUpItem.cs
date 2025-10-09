@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public class PickUpItem : MonoBehaviour
 {
-    public ConsumableClass consumable;
+    public ItemClass itemToPickUp;
     private InventoryManager inventoryManager;
 
     void Start()
@@ -12,7 +12,7 @@ public class Food : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        inventoryManager.Add(consumable); 
+        inventoryManager.Add(itemToPickUp); 
         Destroy(gameObject);   
     }
 }
