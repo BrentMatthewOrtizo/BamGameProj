@@ -5,7 +5,7 @@ public class RandomWarpZone : MonoBehaviour
 {
     public int targetSceneIndex = 1;
     
-    [Range(0f, 1f)] public float warpChance = 0.3f;  // 30% by default
+    [Range(0f, 1f)] public float warpChance = 0.3f;
 
     public bool oneTimeUse = false;
     private bool used = false;
