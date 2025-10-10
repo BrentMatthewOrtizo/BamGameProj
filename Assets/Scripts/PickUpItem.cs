@@ -12,7 +12,8 @@ public class PickUpItem : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        inventoryManager.AddItem(itemToPickUp); 
+        inventoryManager.AddItem(itemToPickUp);
+        Debug.Log(itemToPickUp + "was added to inventory");
         Destroy(gameObject);   
     }
 }
