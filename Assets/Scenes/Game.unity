@@ -6350,6 +6350,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8518304293351267899, guid: 5d75b4b756a9441d988b96156ab3bfea, type: 3}
+      propertyPath: itemToPickUp
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d3b3be1064294e0f9f4d32d602f7585, type: 2}
     - target: {fileID: 9023684849672792568, guid: 5d75b4b756a9441d988b96156ab3bfea, type: 3}
       propertyPath: m_Name
       value: MagicEmblem
@@ -20435,6 +20439,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8518304293351267899, guid: 5d75b4b756a9441d988b96156ab3bfea, type: 3}
+      propertyPath: itemToPickUp
+      value: 
+      objectReference: {fileID: 11400000, guid: 34ee77d9047384d37a1795ae97dec233, type: 2}
     - target: {fileID: 9023684849672792568, guid: 5d75b4b756a9441d988b96156ab3bfea, type: 3}
       propertyPath: m_Name
       value: MagicEmblem (3)
