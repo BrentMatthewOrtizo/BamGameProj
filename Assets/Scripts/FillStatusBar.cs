@@ -1,13 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FillStatusBar : MonoBehaviour
 {
-    public Health characterHealth;
-    public Image fillBackground;
+    private Health characterHealth;
+
+    public Image fillBackground; //if we want to change background of health bar
 
     private Slider slider;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    public void SetCharacter(GameObject newCharacter)
+    {
+        characterHealth = newCharacter.GetComponent<Health>();
+    }
+    
     void Awake()
     {
         slider = GetComponent<Slider>();
@@ -16,12 +23,17 @@ public class FillStatusBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float fillValue = characterHealth.currentHealth / characterHealth.maxHealth;
-        slider.value = fillValue;
-
-        if (slider.value <= slider.minValue)
+        if (characterHealth != null)
         {
-            slider.value = slider.minValue;
+            //health bar logic
+            float fillValue = characterHealth.currentHealth / characterHealth.maxHealth;
+            slider.value = fillValue;
+
+            if (slider.value <= slider.minValue)
+            {
+                slider.value = slider.minValue;
+            }
         }
+            
     }
 }
