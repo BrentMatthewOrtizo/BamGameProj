@@ -50,7 +50,7 @@ namespace AutoBattler
         private readonly List<Pet> _enemy  = new();
         private Random _rng;
 
-        #region Events (hook your UI/FX here)
+        #region Events (hook UI/FX here)
         public event Action OnBattleStart;
         public event Action<Side, List<Pet>> OnPartyBuilt;
         public event Action<Pet, Pet> OnDuelStart;                         // pets have met in middle
@@ -58,6 +58,16 @@ namespace AutoBattler
         public event Action<Pet> OnPetDied;
         public event Action<Side /*winner*/> OnBattleEnded;
         #endregion
+        
+        private void OnEnable()
+        {
+            OnBattleStart += () => Debug.Log("Battle started!");
+            OnPartyBuilt += (side, pets) => Debug.Log($"{side} party built with {pets.Count} pets.");
+            OnDuelStart += (p1, p2) => Debug.Log($"Duel Start: {p1.Name} vs {p2.Name}");
+            OnRollResolved += (p1, p2, e1, e2, result) => Debug.Log($"Roll: {p1.Name} [{e1}] vs {p2.Name} [{e2}] → {(result == 0 ? "P1 Wins" : result == 1 ? "P2 Wins" : "Tie")}");
+            OnPetDied += p => Debug.Log($"{p.Name} has fallen!");
+            OnBattleEnded += winner => Debug.Log($"Battle ended — Winner: {winner}");
+        }
 
         #region Inspector helper types
         [Serializable]
@@ -89,9 +99,11 @@ namespace AutoBattler
         private void Start()
         {
             _rng = (rngSeed == 0) ? new Random() : new Random(rngSeed);
+            Debug.Log("[BattleManager] Start() initialized.");
 
             if (autoStart)
             {
+                Debug.Log("[BattleManager] Auto-starting battle...");
                 BuildParties();
                 StartCoroutine(BattleLoop());
             }
