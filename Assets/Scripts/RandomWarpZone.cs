@@ -16,13 +16,20 @@ public class RandomWarpZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             float roll = Random.value;
+            Debug.Log($"Player entered warp zone. Roll = {roll:F2}");
+
             if (roll <= warpChance)
             {
+                Debug.Log("Player entered a battle scene.");
                 WarpManager.SavePlayerPosition(other.gameObject);
                 SceneManager.LoadScene(targetSceneIndex);
 
                 if (oneTimeUse)
                     used = true;
+            }
+            else
+            {
+                Debug.Log("Warp did not trigger; player continues exploring.");
             }
         }
     }

@@ -7,6 +7,7 @@ public class ReturnButtonHandler : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(WarpManager.previousSceneName))
         {
+            Debug.Log("Player left the battle scene and returned to previous location.");
             SceneManager.LoadScene(WarpManager.previousSceneName);
         }
     }
