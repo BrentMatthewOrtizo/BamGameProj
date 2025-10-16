@@ -9,6 +9,8 @@ public class KeyPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             HasKey = true;
+            Debug.Log("Player collected a key.");
+            AudioManager.Instance?.PlayItemPickupSFX();
             Destroy(gameObject);
         }
     }

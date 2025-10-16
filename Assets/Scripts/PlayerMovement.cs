@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             animator.SetTrigger("jump");
+            AudioManager.Instance?.PlayJumpSFX();
+            Debug.Log("Player jumped.");
         }
 
         // Shorten jump when released (only if still moving upward)
