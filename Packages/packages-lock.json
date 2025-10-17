@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.game399.shared": {
-      "version": "file:../src/Shared/Game399.Shared/Runtime",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "12.0.2",
       "depth": 0,
