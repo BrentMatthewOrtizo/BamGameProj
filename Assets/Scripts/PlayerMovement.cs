@@ -6,6 +6,7 @@ using Game399.Shared.Diagnostics;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Wraps Unity's Logger with our Logger Interface
     private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     
     
