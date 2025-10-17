@@ -6,7 +6,7 @@ using Game399.Shared.Diagnostics;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private IGameLog _logger;
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     
     
     public Animator animator;
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        _logger = ServiceResolver.Resolve<IGameLog>();
+        
     }
 
     // Update is called once per frame
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             animator.SetTrigger("jump");
             AudioManager.Instance?.PlayJumpSFX();
-            _logger.Info("Player jumped.");
+            Log.Info("Player jumped.");
         }
 
         // Shorten jump when released (only if still moving upward)
