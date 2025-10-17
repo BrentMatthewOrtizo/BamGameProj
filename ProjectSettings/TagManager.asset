@@ -2,16 +2,23 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - PauseButton
+  - PauseMenu
+  - ExitButton
+  - Instructions
+  - ResumeButton
+  - Food
+  - Inventory
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
+  - Decor
   - 
   - 
   - 
@@ -41,3 +48,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Back
+    uniqueID: 77194865
+    locked: 0
+  - name: 2Back
+    uniqueID: 1022540939
+    locked: 0
+  - name: 3Back
+    uniqueID: 721350569
+    locked: 0
+  - name: WalkInFront
+    uniqueID: 1063262615
+    locked: 0
+  - name: Ground
+    uniqueID: 2858821373
+    locked: 0
+  - name: Decor
+    uniqueID: 1271174673
+    locked: 0
+  - name: Player
+    uniqueID: 3223560053
+    locked: 0
+  m_RenderingLayers:
+  - Default
