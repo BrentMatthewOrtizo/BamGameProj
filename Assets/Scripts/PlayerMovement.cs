@@ -1,8 +1,13 @@
+using Game.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game399.Shared.Diagnostics;
+
 
 public class PlayerMovement : MonoBehaviour
 {
+    private IGameLog _logger;
+    
     
     public Animator animator;
     
@@ -20,9 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        _logger = ServiceResolver.Resolve<IGameLog>();
     }
 
     // Update is called once per frame
@@ -53,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             animator.SetTrigger("jump");
             AudioManager.Instance?.PlayJumpSFX();
-            Debug.Log("Player jumped.");
+            _logger.Info("Player jumped.");
         }
 
         // Shorten jump when released (only if still moving upward)
