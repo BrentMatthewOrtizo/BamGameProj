@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scrolling
   _img: {fileID: 1387676433}
-  x: 0.01
+  x: 0.02
   y: 0
 --- !u!114 &1387676433
 MonoBehaviour:

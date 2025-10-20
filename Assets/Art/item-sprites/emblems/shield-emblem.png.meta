@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7b0d56e48e11749d0aa2953b8071aeda
+guid: 66b5cbe1a381044e0af9f62439e4efea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3753825769889500098
-    second: sword_0
+      213: -6272521422164082749
+    second: shield-emblem_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sword_0
+      name: shield-emblem_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 3
-        width: 95
-        height: 91
+        x: 27
+        y: 1
+        width: 122
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e347705d95bb7ebc0800000000000000
-      internalID: -3753825769889500098
+      spriteID: 3cfb1e1fff683f8a0800000000000000
+      internalID: -6272521422164082749
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      sword_0: -3753825769889500098
+      shield-emblem_0: -6272521422164082749
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
