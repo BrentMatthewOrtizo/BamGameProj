@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 9ab3922ec393d4786b5476fe5d054aa1
+guid: a7deaec37ed3a46639c0002a88af81ac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2389193319765324094
-    second: shield_0
+      213: 6717030406437667520
+    second: magic-emblem_0
+  - first:
+      213: 5062827960982730027
+    second: magic-emblem_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shield_0
+      name: magic-emblem_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 22
-        width: 120
-        height: 136
+        x: 237
+        y: 389
+        width: 13
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3139547aae182120800000000000000
-      internalID: 2389193319765324094
+      spriteID: 0c20739f09fa73d50800000000000000
+      internalID: 6717030406437667520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magic-emblem_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 10
+        width: 352
+        height: 373
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b257a4dd437c24640800000000000000
+      internalID: 5062827960982730027
       vertices: []
       indices: 
       edges: []
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shield_0: 2389193319765324094
+      magic-emblem_0: 6717030406437667520
+      magic-emblem_1: 5062827960982730027
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
