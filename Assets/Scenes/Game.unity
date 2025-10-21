@@ -482,8 +482,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5449,7 +5453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5492,8 +5496,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6090,7 +6098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6145,8 +6153,12 @@ PrefabInstance:
       value: 0.6603966
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6242,7 +6254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6297,8 +6309,12 @@ PrefabInstance:
       value: 0.32219923
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16255,8 +16271,12 @@ PrefabInstance:
       value: 1.1564198
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16316,8 +16336,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16484,7 +16508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16539,8 +16563,12 @@ PrefabInstance:
       value: 0.8745892
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16679,7 +16707,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.878721, y: -2.8555598, z: -10}
+  m_LocalPosition: {x: -5.886459, y: -2.85642, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18190,8 +18218,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18217,7 +18249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18272,8 +18304,12 @@ PrefabInstance:
       value: -0.18509775
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18519,8 +18555,12 @@ PrefabInstance:
       value: -0.18509775
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19454,8 +19494,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20025,7 +20069,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 8
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: 57f322893dd1a114d943c56b41ef4bac, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -20170,7 +20214,7 @@ MonoBehaviour:
   animator: {fileID: 1335466824}
   moveSpeed: 5
   rb: {fileID: 1335466818}
-  jumpPower: 17
+  jumpPower: 12
   groundCheckPos: {fileID: 1728058625}
   groundCheckSize: {x: 0.8, y: 0.05}
   groundLayer:
@@ -20708,7 +20752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134916276025295735, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215927003227071163, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20763,8 +20807,12 @@ PrefabInstance:
       value: -0.18509775
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21389,8 +21437,12 @@ PrefabInstance:
       value: 0.32219923
       objectReference: {fileID: 0}
     - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
+      propertyPath: oneTimeUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838596726446535776, guid: 446a58781dbb3e54994e8c0cb69e1007, type: 3}
       propertyPath: warpChance
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

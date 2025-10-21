@@ -6,6 +6,7 @@ using Random = System.Random;
 
 namespace AutoBattler
 {
+    
     public enum Side { Player, Enemy }
 
     /// <summary>

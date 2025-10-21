@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game399.Shared.Diagnostics;
+using Game.Runtime;
 
 public class AudioManager : MonoBehaviour
 {
+    
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
+    
     public static AudioManager Instance;
 
     [Header("Music Tracks")]
@@ -43,7 +48,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
-        Debug.Log($"Scene changed to {newScene.name}");
+        Log.Info($"Scene changed to {newScene.name}");
         PlayMusicForScene(newScene.name);
     }
 

@@ -1,8 +1,12 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using Game399.Shared.Diagnostics;
+using Game.Runtime;
 
 public class DesertToForest : MonoBehaviour, IInteractable
 {
+    
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     public Transform teleportDestination; // Where the player will teleport to
     public PolygonCollider2D newCameraBounds; // Assign your new area’s collider in Inspector
 
@@ -17,14 +21,14 @@ public class DesertToForest : MonoBehaviour, IInteractable
     {
         if (!CanInteract()) return;
 
-        Debug.Log("Player interacted with the obelisk.");
+        Log.Info("Player interacted with the obelisk.");
         AudioManager.Instance?.PlayObeliskInteractSFX();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && teleportDestination != null)
         {
             player.transform.position = teleportDestination.position;
-            Debug.Log("Player teleported to the forest biome.");
+            Log.Info("Player teleported to the forest biome.");
         }
 
         CinemachineConfiner2D confiner = FindFirstObjectByType<CinemachineConfiner2D>();

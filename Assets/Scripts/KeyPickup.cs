@@ -1,7 +1,11 @@
 using UnityEngine;
+using Game399.Shared.Diagnostics;
+using Game.Runtime;
 
 public class KeyPickup : MonoBehaviour
 {
+    
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     public static bool HasKey = false;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -9,7 +13,7 @@ public class KeyPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             HasKey = true;
-            Debug.Log("Player collected a key.");
+            Log.Info("Player collected a key.");
             AudioManager.Instance?.PlayItemPickupSFX();
             Destroy(gameObject);
         }
