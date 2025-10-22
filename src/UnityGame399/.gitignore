@@ -1,0 +1,79 @@
+# ===================================================
+# Unity Project .gitignore
+# ===================================================
+
+# ========== OS-generated ==========
+.DS_Store
+Thumbs.db
+.utmp/
+
+# ========== Unity-generated ==========
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+*.log
+*.bak
+*.tmp
+*.old
+*.orig
+sysinfo.txt
+mono_crash.*
+
+# ========== Platform/Build Artifacts ==========
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.xcodeproj
+*.xcworkspace
+*.xcuserstate
+crashlytics-build.properties
+
+# ========== Blender / Visual Scripting ==========
+*.blend1
+*.blend1.meta
+/[Aa]ssets/Unity.VisualScripting.Generated/
+
+# ========== IDE-specific ==========
+.idea/
+*.sln.iml
+*.DotSettings.user
+.vscode/
+.vs/
+.consulo/
+.gradle/
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+!src/Shared/**/*.csproj
+!src/Shared/**/*.sln
+
+# ========== Addressables / Auto-generated ==========
+/ServerData
+/[Aa]ssets/StreamingAssets/aa*
+/[Aa]ssets/AddressableAssetsData/link.xml*
+/[Aa]ssets/Addressables_Temp*
+/[Aa]ssets/AddressableAssetsData/*/*.bin*
+/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# ========== Notes ==========
+# Do not ignore .meta files!
+# Do not ignore Assets/, ProjectSettings/, or Packages/ directories.
+# Do not ignore .csproj or .sln files in Shared directory for testing

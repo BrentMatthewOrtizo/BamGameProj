@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Tests.csproj": {}
+  },
+  "projects": {
+    "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Tests.csproj",
+        "projectName": "Game399.Tests",
+        "projectPath": "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Tests.csproj",
+        "packagesPath": "/Users/avadecristofaro/.nuget/packages/",
+        "outputPath": "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/avadecristofaro/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Shared.csproj": {
+                "projectPath": "/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/src/Tests/Game399.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.12.0, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.14.0, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[4.4.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.6.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/Users/avadecristofaro/.dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
