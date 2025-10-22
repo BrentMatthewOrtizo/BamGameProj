@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game399.Shared.Diagnostics;
+using Game.Runtime;
 
 public class RandomWarpZone : MonoBehaviour
 {
+    
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     public int targetSceneIndex = 1;
     
     [Range(0f, 1f)] public float warpChance = 0.3f;
@@ -16,11 +20,11 @@ public class RandomWarpZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             float roll = Random.value;
-            Debug.Log($"Player entered warp zone. Roll = {roll:F2}");
+            Log.Info($"Player entered warp zone. Roll = {roll:F2}");
 
             if (roll <= warpChance)
             {
-                Debug.Log("Player entered a battle scene.");
+                Log.Info("Player entered a battle scene.");
                 WarpManager.SavePlayerPosition(other.gameObject);
                 SceneManager.LoadScene(targetSceneIndex);
 
@@ -29,7 +33,7 @@ public class RandomWarpZone : MonoBehaviour
             }
             else
             {
-                Debug.Log("Warp did not trigger; player continues exploring.");
+                Log.Error("Warp did not trigger; player continues exploring.");
             }
         }
     }

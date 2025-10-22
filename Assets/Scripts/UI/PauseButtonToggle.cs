@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game399.Shared.Diagnostics;
+using Game.Runtime;
 
 namespace AutoBattler
 {
     public class PauseButtonToggle : MonoBehaviour
     {
+        
+        private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
         public BattleManager battleManager;
         private Button button;
         private bool isPaused = false;
@@ -14,13 +18,13 @@ namespace AutoBattler
             button = GetComponent<Button>();
             if (button == null)
             {
-                Debug.LogError("PauseButtonToggle: No Button component found!");
+                Log.Error("PauseButtonToggle: No Button component found!");
                 return;
             }
 
             if (battleManager == null)
             {
-                Debug.LogError("PauseButtonToggle: BattleManager reference not assigned!");
+                Log.Error("PauseButtonToggle: BattleManager reference not assigned!");
                 return;
             }
 
@@ -48,11 +52,11 @@ namespace AutoBattler
                 }
                 else
                 {
-                    Debug.LogWarning("PauseButtonToggle: No Text component found on the PauseButton.");
+                    Log.Warn("PauseButtonToggle: No Text component found on the PauseButton.");
                 }
             }
 
-            Debug.Log(isPaused ? "Game Paused." : "Game Resumed.");
+            Log.Info(isPaused ? "Game Paused." : "Game Resumed.");
         }
     }
 }
