@@ -65,6 +65,8 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+!src/Shared/**/*.csproj
+!src/Shared/**/*.sln
 
 # ========== Addressables / Auto-generated ==========
 /ServerData
@@ -77,6 +79,7 @@ ExportedObj/
 # ========== Notes ==========
 # Do not ignore .meta files!
 # Do not ignore Assets/, ProjectSettings/, or Packages/ directories.
+# Do not ignore .csproj or .sln files in Shared directory for testing
 
 # ========== Misc ==========
 ehthumbs.db
