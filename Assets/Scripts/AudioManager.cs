@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip jumpSFX;
     public AudioClip itemPickupSFX;
     public AudioClip obeliskInteractSFX;
+    public AudioClip startScreenButton;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;
@@ -121,5 +122,10 @@ public class AudioManager : MonoBehaviour
     public void PlayObeliskInteractSFX()
     {
         sfxSource.PlayOneShot(obeliskInteractSFX);
+    }
+    
+    public void PlayStartScreenButton()
+    {
+        sfxSource.PlayOneShot(startScreenButton);
     }
 }

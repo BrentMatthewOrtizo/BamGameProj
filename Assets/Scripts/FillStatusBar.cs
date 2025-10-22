@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class FillStatusBar : MonoBehaviour
 {
-    private Health characterHealth;
+    public Health characterHealth;
+    private GameObject character;
+    
 
     public Image fillBackground; //if we want to change background of health bar
 
@@ -18,6 +20,8 @@ public class FillStatusBar : MonoBehaviour
     void Awake()
     {
         slider = GetComponent<Slider>();
+        character = GameObject.FindGameObjectWithTag("Player");
+        SetCharacter(character);
     }
 
     // Update is called once per frame
