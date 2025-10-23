@@ -1,8 +1,8 @@
 <!-- using Game399.Shared; -->
 <!-- using NUnit.Framework; -->
 
-namespace Game399.Tests;
-
+namespace Game399.Tests
+{
 [TestFixture]
 public class ObservableValueTests
 {
@@ -63,4 +63,5 @@ public class ObservableValueTests
         Assert.That(ov.Equals(7), Is.False);
         Assert.That(ov.GetHashCode(), Is.EqualTo(EqualityComparer<int>.Default.GetHashCode(42)));
     }
+}
 }
