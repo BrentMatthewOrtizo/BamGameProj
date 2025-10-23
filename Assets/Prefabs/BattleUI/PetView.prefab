@@ -357,6 +357,24 @@ MonoBehaviour:
   swordSprite: {fileID: -6911419136769142688, guid: ad7be46c8001b42d681eab4bdbec9c55, type: 3}
   shieldSprite: {fileID: -6272521422164082749, guid: 66b5cbe1a381044e0af9f62439e4efea, type: 3}
   magicSprite: {fileID: 5062827960982730027, guid: a7deaec37ed3a46639c0002a88af81ac, type: 3}
+  evilFox: {fileID: 21300000, guid: e99f83c02959e414c96b7c61a048cbec, type: 3}
+  evilCamel: {fileID: 21300000, guid: 2814f9356565a4413aa6cfcde3b4a3ef, type: 3}
+  evilChimera: {fileID: 21300000, guid: 7ca4bcda9ac224bbdac220e4ba6ca37e, type: 3}
+  evilPig: {fileID: 21300000, guid: e99f83c02959e414c96b7c61a048cbec, type: 3}
+  evilCricket: {fileID: 21300000, guid: 2814f9356565a4413aa6cfcde3b4a3ef, type: 3}
+  evilOtter: {fileID: 21300000, guid: 7ca4bcda9ac224bbdac220e4ba6ca37e, type: 3}
+  evilBeetle: {fileID: 21300000, guid: e99f83c02959e414c96b7c61a048cbec, type: 3}
+  evilCrab: {fileID: 21300000, guid: 2814f9356565a4413aa6cfcde3b4a3ef, type: 3}
+  evilFish: {fileID: 21300000, guid: 7ca4bcda9ac224bbdac220e4ba6ca37e, type: 3}
+  deadFox: {fileID: 21300000, guid: b86909e130e8a45da9964619170c14f6, type: 3}
+  deadCamel: {fileID: 21300000, guid: e5089933e6a5845439473c821f2af4c9, type: 3}
+  deadChimera: {fileID: 21300000, guid: 2f8b257fd77c74aaaa0d3e88f4f26b84, type: 3}
+  deadPig: {fileID: 21300000, guid: b86909e130e8a45da9964619170c14f6, type: 3}
+  deadCricket: {fileID: 21300000, guid: e5089933e6a5845439473c821f2af4c9, type: 3}
+  deadOtter: {fileID: 21300000, guid: 2f8b257fd77c74aaaa0d3e88f4f26b84, type: 3}
+  deadBeetle: {fileID: 21300000, guid: b86909e130e8a45da9964619170c14f6, type: 3}
+  deadCrab: {fileID: 21300000, guid: e5089933e6a5845439473c821f2af4c9, type: 3}
+  deadFish: {fileID: 21300000, guid: 2f8b257fd77c74aaaa0d3e88f4f26b84, type: 3}
   audioSource: {fileID: 6659488109710838693}
   hitSounds:
   - {fileID: 8300000, guid: 0a427b6d2f6364ef9a3e43d85c873840, type: 3}
