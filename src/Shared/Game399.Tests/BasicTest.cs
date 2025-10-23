@@ -1,11 +1,12 @@
-﻿using Xunit;
+﻿using NUnit.Framework;
+
 //using Game399.Shared;
 
 namespace Game399.Tests;
 
 public class BasicTest
 {
-    [Fact]
+    [Test]
     public void GetFullName_ReturnsConcatenatedName()
     {
         // Arrange
