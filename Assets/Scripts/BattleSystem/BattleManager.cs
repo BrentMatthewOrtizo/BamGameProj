@@ -40,6 +40,7 @@ namespace AutoBattler
         public Vector2Int enemyHpRange = new(5, 7);
         public Vector2Int enemyEmblemCount = new(1, 3);
 
+        // Runtime lists
         private readonly List<Pet> _player = new();
         private readonly List<Pet> _enemy = new();
         private Random _rng;
@@ -52,7 +53,7 @@ namespace AutoBattler
         public event Action<Pet, Pet, Emblem, Emblem, int> OnRollResolved;
         public event Action<Pet, Pet, int> OnDamageApplied;
         public event Action<Pet> OnPetDied;
-        public event Action<Pet, Side> OnPetKilledFinal; // plays death sound correctly
+        public event Action<Pet, Side> OnPetKilledFinal;
         public event Action<Side> OnBattleEnded;
         #endregion
 
@@ -76,6 +77,7 @@ namespace AutoBattler
         {
             _rng = (rngSeed == 0) ? new Random() : new Random(rngSeed);
             
+            // Play background music
             if (bgmSource && battleMusic)
             {
                 bgmSource.clip = battleMusic;
@@ -87,6 +89,7 @@ namespace AutoBattler
             if (autoStart)
             {
                 BuildParties();
+                OnBattleStart?.Invoke();
                 StartCoroutine(BattleLoop());
             }
         }
@@ -97,6 +100,7 @@ namespace AutoBattler
             _player.Clear();
             _enemy.Clear();
             BuildParties();
+            OnBattleStart?.Invoke(); // re-show popup on retry
             StartCoroutine(BattleLoop());
         }
 
@@ -109,7 +113,7 @@ namespace AutoBattler
                 _player.Add(new Pet(c.name, c.maxHp, c.emblems));
             }
 
-            // Reverse order so rightmost pet attacks first
+            // Reverse for correct display (rightmost is attacker)
             _player.Reverse();
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
@@ -125,8 +129,6 @@ namespace AutoBattler
                 _enemy.Add(new Pet(name, hp, ems));
             }
             OnPartyBuilt?.Invoke(Side.Enemy, _enemy);
-
-            OnBattleStart?.Invoke();
         }
 
         private IEnumerator BattleLoop()
@@ -144,11 +146,11 @@ namespace AutoBattler
                     Emblem e1, e2;
                     int cmp;
 
-                    // Begin emblem spin for both pets
+                    // Begin emblem rolling phase
                     OnRollStart?.Invoke(p1, p2);
                     yield return new WaitForSeconds(rollTotalDuration);
 
-                    // Keep rerolling until there’s a winner
+                    // Resolve rolls until non-tie
                     do
                     {
                         e1 = p1.ChooseRandomEmblem(_rng);
@@ -162,7 +164,7 @@ namespace AutoBattler
                     }
                     while (cmp == 0);
 
-                    // Apply damage + delay
+                    // Apply results
                     if (cmp > 0)
                     {
                         p2.TakeDamage(damagePerWin);
@@ -194,6 +196,10 @@ namespace AutoBattler
 
             var winner = (FirstAlive(_player) != null) ? Side.Player : Side.Enemy;
             OnBattleEnded?.Invoke(winner);
+
+            // Fade out BGM
+            if (bgmSource)
+                StartCoroutine(FadeOutBgm(1.5f));
         }
 
         private Pet FirstAlive(List<Pet> list, bool isEnemy = false)
@@ -232,17 +238,6 @@ namespace AutoBattler
             var side = (party == _player) ? Side.Player : Side.Enemy;
             OnPartyBuilt?.Invoke(side, party);
         }
-        
-        private void OnEnable()
-        {
-            OnBattleEnded += winner =>
-            {
-                if (bgmSource)
-                {
-                    StartCoroutine(FadeOutBgm(1.5f));
-                }
-            };
-        }
 
         private IEnumerator FadeOutBgm(float duration)
         {
@@ -256,7 +251,7 @@ namespace AutoBattler
                 yield return null;
             }
             bgmSource.Stop();
-            bgmSource.volume = startVol; // reset for next play
+            bgmSource.volume = startVol;
         }
     }
 }

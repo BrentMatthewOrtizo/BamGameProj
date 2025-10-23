@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace AutoBattler
@@ -9,6 +11,7 @@ namespace AutoBattler
         [SerializeField] private BattleManager battleManager;
         [SerializeField] private RectTransform playerRow;
         [SerializeField] private RectTransform enemyRow;
+        [SerializeField] private TextMeshProUGUI battlePopupText;
 
         [Header("Prefabs")]
         [SerializeField] private PetView petViewPrefab;
@@ -21,6 +24,7 @@ namespace AutoBattler
             if (!battleManager) battleManager = FindAnyObjectByType<BattleManager>();
             if (!battleManager) return;
 
+            battleManager.OnBattleStart += HandleBattleStart;
             battleManager.OnPartyBuilt += HandlePartyBuilt;
             battleManager.OnRollStart += HandleRollStart;
             battleManager.OnRollResolved += HandleRollResolved;
@@ -33,6 +37,7 @@ namespace AutoBattler
         {
             if (!battleManager) return;
 
+            battleManager.OnBattleStart -= HandleBattleStart;
             battleManager.OnPartyBuilt -= HandlePartyBuilt;
             battleManager.OnRollStart -= HandleRollStart;
             battleManager.OnRollResolved -= HandleRollResolved;
@@ -41,6 +46,53 @@ namespace AutoBattler
             battleManager.OnPetKilledFinal -= HandlePetKilledFinal;
         }
 
+        // ------------------------------------------
+        // Popup intro animation
+        // ------------------------------------------
+        private void HandleBattleStart()
+        {
+            StartCoroutine(ShowBattlePopup());
+        }
+
+        private IEnumerator ShowBattlePopup()
+        {
+            if (!battlePopupText) yield break;
+
+            battlePopupText.gameObject.SetActive(true);
+            battlePopupText.alpha = 1f;
+            battlePopupText.text = "Battle Encountered!";
+            battlePopupText.transform.localScale = Vector3.one * 0.5f;
+
+            // Pop scale animation
+            Vector3 targetScale = Vector3.one * 1.2f;
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * 4f;
+                battlePopupText.transform.localScale = Vector3.Lerp(battlePopupText.transform.localScale, targetScale, t);
+                yield return null;
+            }
+
+            // Hold text on screen briefly
+            yield return new WaitForSeconds(1.5f);
+
+            // Fade out / shrink away
+            t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * 2f;
+                battlePopupText.alpha = Mathf.Lerp(1f, 0f, t);
+                yield return null;
+            }
+
+            // Reset
+            battlePopupText.alpha = 1f;
+            battlePopupText.gameObject.SetActive(false);
+        }
+
+        // ------------------------------------------
+        // Party / Roll Handling
+        // ------------------------------------------
         private void HandlePartyBuilt(Side side, List<Pet> pets)
         {
             var row = (side == Side.Player) ? playerRow : enemyRow;
