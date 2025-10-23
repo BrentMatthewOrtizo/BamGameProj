@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,31 +22,31 @@ namespace AutoBattler
             if (!battleManager) return;
 
             battleManager.OnPartyBuilt += HandlePartyBuilt;
+            battleManager.OnRollStart += HandleRollStart;
             battleManager.OnRollResolved += HandleRollResolved;
+            battleManager.OnDamageApplied += HandleDamageApplied;
             battleManager.OnPetDied += HandlePetDied;
         }
 
         void OnDisable()
         {
             if (!battleManager) return;
+
             battleManager.OnPartyBuilt -= HandlePartyBuilt;
+            battleManager.OnRollStart -= HandleRollStart;
             battleManager.OnRollResolved -= HandleRollResolved;
+            battleManager.OnDamageApplied -= HandleDamageApplied;
             battleManager.OnPetDied -= HandlePetDied;
         }
 
-        // ---------------------------------------------------------
-        // BUILD PARTY ROWS
-        // ---------------------------------------------------------
         private void HandlePartyBuilt(Side side, List<Pet> pets)
         {
             var row = (side == Side.Player) ? playerRow : enemyRow;
             bool enemy = (side == Side.Enemy);
 
-            // Clear old views
             for (int i = row.childCount - 1; i >= 0; i--)
                 Destroy(row.GetChild(i).gameObject);
 
-            // Rebuild row in logical display order
             foreach (var pet in pets)
                 CreateView(row, pet, isEnemy: enemy);
         }
@@ -60,72 +59,42 @@ namespace AutoBattler
             if (isEnemy) _enemySide.Add(pet);
         }
 
-        // ---------------------------------------------------------
-        // HANDLE ROLL RESOLUTION
-        // ---------------------------------------------------------
-        private void HandleRollResolved(Pet p1, Pet p2, Emblem e1, Emblem e2, int winnerIndex)
+        private void HandleRollStart(Pet p1, Pet p2)
         {
-            // Hide all emblems initially
-            foreach (var view in _views.Values)
-                view.HideEmblem();
+            foreach (var v in _views.Values) v.HideEmblem();
 
-            // Only active pets show rolling icons
             if (_views.TryGetValue(p1, out var v1))
-            {
-                v1.PlayEmblemRoll();
-                StartCoroutine(ShowFinalEmblem(v1, e1));
-            }
+                v1.BeginEmblemRoll(battleManager.rollCycleInterval);
 
             if (_views.TryGetValue(p2, out var v2))
-            {
-                v2.PlayEmblemRoll();
-                StartCoroutine(ShowFinalEmblem(v2, e2));
-            }
-
-            // Handle the actual damage + flash after emblem reveal
-            StartCoroutine(HandlePostRoll(p1, p2, winnerIndex));
+                v2.BeginEmblemRoll(battleManager.rollCycleInterval);
         }
 
-        private IEnumerator ShowFinalEmblem(PetView view, Emblem emblem)
+        private void HandleRollResolved(Pet p1, Pet p2, Emblem e1, Emblem e2, int winnerIndex)
         {
-            // Wait for roll animation to finish
-            yield return new WaitForSeconds(0.6f);
-            view.ShowEmblem(emblem);
+            if (_views.TryGetValue(p1, out var v1))
+                v1.EndEmblemRoll(e1);
+
+            if (_views.TryGetValue(p2, out var v2))
+                v2.EndEmblemRoll(e2);
         }
 
-        private IEnumerator HandlePostRoll(Pet p1, Pet p2, int winnerIndex)
+        private void HandleDamageApplied(Pet p1, Pet p2, int winnerIndex)
         {
-            // Wait until emblems are revealed
-            yield return new WaitForSeconds(0.8f);
-
-            if (winnerIndex == 0) // player wins → enemy takes damage
+            if (winnerIndex == 0)
             {
-                if (_views.TryGetValue(p2, out var target))
-                {
-                    target.UpdateHp();
-                    target.FlashHit();
-                    if (!p2.IsAlive) target.ShowDeadVisual();
-                }
+                if (_views.TryGetValue(p2, out var t)) { t.UpdateHp(); t.FlashHit(); }
             }
-            else if (winnerIndex == 1) // enemy wins → player takes damage
+            else if (winnerIndex == 1)
             {
-                if (_views.TryGetValue(p1, out var target))
-                {
-                    target.UpdateHp();
-                    target.FlashHit();
-                    if (!p1.IsAlive) target.ShowDeadVisual();
-                }
+                if (_views.TryGetValue(p1, out var t)) { t.UpdateHp(); t.FlashHit(); }
             }
         }
 
-        // ---------------------------------------------------------
-        // HANDLE DEATH EVENT
-        // ---------------------------------------------------------
         private void HandlePetDied(Pet pet)
         {
             if (_views.TryGetValue(pet, out var v))
                 v.ShowDeadVisual();
-            // BattleManager triggers row rebuild automatically afterwards.
         }
     }
 }

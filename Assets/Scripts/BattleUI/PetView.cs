@@ -25,81 +25,66 @@ namespace AutoBattler
         private int _displayDamage;
         private bool _isEnemy;
         private Coroutine _emblemRoutine;
+        private bool _spinning;
 
-        // --------------------  SETUP  --------------------
         public void Setup(Pet pet, int damageToShow, Sprite sprite = null, bool isEnemy = false)
         {
             _pet = pet;
             _displayDamage = damageToShow;
             _isEnemy = isEnemy;
 
-            // Update text
             if (hpText) hpText.text = Mathf.Max(0, _pet.CurrentHP).ToString();
             if (damageText) damageText.text = _displayDamage.ToString();
 
-            // Configure sprite + facing direction
             if (petImage)
             {
                 if (sprite) petImage.sprite = sprite;
                 var s = petImage.rectTransform.localScale;
                 s.x = isEnemy ? -Mathf.Abs(s.x) : Mathf.Abs(s.x);
-                s.y = Mathf.Abs(s.y);
                 petImage.rectTransform.localScale = s;
                 petImage.color = Color.white;
             }
 
-            // Hide emblem initially
-            if (emblemImage)
-                emblemImage.enabled = false;
+            if (emblemImage) emblemImage.enabled = false;
 
-            // NEW: if pet already dead (like after rebuild), immediately gray it out
-            if (!_pet.IsAlive)
-                ShowDeadVisual();
+            if (!_pet.IsAlive) ShowDeadVisual();
         }
 
-        // --------------------  EMBLEM LOGIC  --------------------
-        public void ShowEmblem(Emblem emblem)
-        {
-            if (!emblemImage) return;
-            emblemImage.enabled = true;
-            emblemImage.sprite = GetEmblemSprite(emblem);
-        }
-
-        public void HideEmblem()
-        {
-            if (emblemImage)
-                emblemImage.enabled = false;
-        }
-
-        // This now cycles ONLY through the monster’s *actual* emblems
-        public void PlayEmblemRoll()
-        {
-            if (_emblemRoutine != null)
-                StopCoroutine(_emblemRoutine);
-            _emblemRoutine = StartCoroutine(EmblemSlotRoutine());
-        }
-
-        private IEnumerator EmblemSlotRoutine()
+        public void BeginEmblemRoll(float intervalSeconds)
         {
             if (!emblemImage || _pet == null || _pet.Emblems == null || _pet.Emblems.Count == 0)
-                yield break;
+                return;
 
             emblemImage.enabled = true;
 
-            // Build the actual pool of sprites from THIS pet’s equipped emblems
-            List<Sprite> emblemSprites = new List<Sprite>();
-            foreach (var emblem in _pet.Emblems)
-                emblemSprites.Add(GetEmblemSprite(emblem));
+            if (_emblemRoutine != null) StopCoroutine(_emblemRoutine);
+            _spinning = true;
+            _emblemRoutine = StartCoroutine(SpinEmblems(intervalSeconds));
+        }
 
-            float duration = 0.6f;
-            float elapsed = 0f;
-            float interval = 0.05f;
-
-            while (elapsed < duration)
+        public void EndEmblemRoll(Emblem finalEmblem)
+        {
+            _spinning = false;
+            if (_emblemRoutine != null)
             {
-                // Pick from this pet’s own emblems, not all possible ones
-                emblemImage.sprite = emblemSprites[Random.Range(0, emblemSprites.Count)];
-                elapsed += interval;
+                StopCoroutine(_emblemRoutine);
+                _emblemRoutine = null;
+            }
+            if (emblemImage)
+            {
+                emblemImage.enabled = true;
+                emblemImage.sprite = GetEmblemSprite(finalEmblem);
+            }
+        }
+
+        private IEnumerator SpinEmblems(float interval)
+        {
+            var pool = _pet.Emblems;
+            int i = 0;
+            while (_spinning)
+            {
+                emblemImage.sprite = GetEmblemSprite(pool[i % pool.Count]);
+                i++;
                 yield return new WaitForSeconds(interval);
             }
         }
@@ -115,7 +100,6 @@ namespace AutoBattler
             };
         }
 
-        // --------------------  HEALTH / DAMAGE  --------------------
         public void UpdateHp()
         {
             if (_pet != null && hpText)
@@ -136,15 +120,15 @@ namespace AutoBattler
             petImage.color = c0;
         }
 
-        // --------------------  DEATH VISUALS  --------------------
         public void ShowDeadVisual()
         {
-            if (deadSprite && petImage)
-                petImage.sprite = deadSprite;
+            if (deadSprite && petImage) petImage.sprite = deadSprite;
+            if (petImage) petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+            if (emblemImage) emblemImage.enabled = false;
+        }
 
-            if (petImage)
-                petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f); // gray tint
-
+        public void HideEmblem()
+        {
             if (emblemImage)
                 emblemImage.enabled = false;
         }
