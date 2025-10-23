@@ -53,7 +53,6 @@ crashlytics-build.properties
 .gradle/
 ExportedObj/
 *.unityproj
-*.sln
 *.suo
 *.user
 *.userprefs
