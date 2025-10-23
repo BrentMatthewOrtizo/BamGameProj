@@ -17,12 +17,23 @@ public class BattleEndUIController : MonoBehaviour
     [SerializeField] private float fadeInDuration = 0.6f;
     [SerializeField] private float messageDisplayTime = 1.5f;
 
+    [Header("Monster Sprites")]
+    [SerializeField] private Sprite evilFox;
+    [SerializeField] private Sprite evilCamel;
+    [SerializeField] private Sprite evilChimera;
+    [SerializeField] private Sprite tamedFox;
+    [SerializeField] private Sprite tamedCamel;
+    [SerializeField] private Sprite tamedChimera;
+    //Generics
+    [SerializeField] private Sprite evilGeneric;
+    [SerializeField] private Sprite tamedGeneric;
+    
     private BattleManager _battleManager;
     private Pet _tameTarget;
+    private string _tameTargetName;
 
     private void Start()
     {
-        // Hide all UI initially
         SetUIVisible(false);
 
         _battleManager = FindAnyObjectByType<BattleManager>();
@@ -47,7 +58,6 @@ public class BattleEndUIController : MonoBehaviour
         overlay.interactable = visible;
     }
 
-    // Called when the battle ends
     private void HandleBattleEnd(Side winner)
     {
         StartCoroutine(ShowBattleEndSequence(winner));
@@ -72,38 +82,32 @@ public class BattleEndUIController : MonoBehaviour
             messageText.text = "Woah! Tame Time!";
             yield return new WaitForSeconds(0.5f);
 
-            // Show a random enemy monster sprite (placeholder)
             var enemyPets = GetEnemyPets();
             if (enemyPets.Count > 0)
             {
                 _tameTarget = enemyPets[Random.Range(0, enemyPets.Count)];
-                monsterImage.sprite = GetEvilSpriteFor(_tameTarget.Name);
+                _tameTargetName = _tameTarget.Name.ToLower();
+                monsterImage.sprite = GetEvilSpriteFor(_tameTargetName);
+                monsterImage.color = Color.white;
                 monsterImage.gameObject.SetActive(true);
             }
 
-            // Step 3: Enable tame button
             tameButton.gameObject.SetActive(true);
             tameButton.interactable = true;
             tameButton.GetComponentInChildren<TextMeshProUGUI>().text = "Tame? (Cost 1 Food)";
         }
         else
         {
-            // Defeat case
             messageText.text = "Defeat...";
             yield return new WaitForSeconds(2f);
-
-            // Exit logic (placeholder for now)
-            Debug.Log("Returning to overworld...");
             SetUIVisible(false);
         }
     }
 
-    // Handle tame button press
     private void HandleTameButton()
     {
-        // Random success (80%)
-        bool success = Random.value <= 0.8f;
         tameButton.interactable = false;
+        bool success = Random.value <= 0.8f;
         StartCoroutine(HandleTameOutcome(success));
     }
 
@@ -112,7 +116,12 @@ public class BattleEndUIController : MonoBehaviour
         if (success)
         {
             messageText.text = "You Tamed It!";
-            monsterImage.color = Color.white; // show bright version
+            yield return new WaitForSeconds(0.3f);
+
+            // flip to tamed variant
+            monsterImage.sprite = GetTamedSpriteFor(_tameTargetName);
+            monsterImage.color = Color.white;
+
             yield return new WaitForSeconds(2f);
         }
         else
@@ -136,7 +145,6 @@ public class BattleEndUIController : MonoBehaviour
         }
     }
 
-    // Placeholder until we connect to enemy data
     private List<Pet> GetEnemyPets()
     {
         var battleManager = FindAnyObjectByType<BattleManager>();
@@ -147,8 +155,27 @@ public class BattleEndUIController : MonoBehaviour
 
     private Sprite GetEvilSpriteFor(string name)
     {
-        // Simple lookup for now — replace later with centralized sprite manager
-        name = name.ToLower();
-        return Resources.Load<Sprite>($"Art/MonsterSprites/evil-{name}") ?? null;
+        switch (name)
+        {
+            case "fox": return evilFox;
+            case "camel": return evilCamel;
+            case "chimera": return evilChimera;
+            default:
+                Debug.Log($"[BattleEndUI] Using generic evil sprite for {name}");
+                return evilGeneric;
+        }
+    }
+
+    private Sprite GetTamedSpriteFor(string name)
+    {
+        switch (name)
+        {
+            case "fox": return tamedFox;
+            case "camel": return tamedCamel;
+            case "chimera": return tamedChimera;
+            default:
+                Debug.Log($"[BattleEndUI] Using generic tamed sprite for {name}");
+                return tamedGeneric;
+        }
     }
 }
