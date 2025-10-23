@@ -26,22 +26,11 @@ namespace AutoBattler
         [SerializeField] private Sprite evilCamel;
         [SerializeField] private Sprite evilChimera;
         [SerializeField] private Sprite evilPig;
-        [SerializeField] private Sprite evilCricket;
-        [SerializeField] private Sprite evilOtter;
-        [SerializeField] private Sprite evilBeetle;
-        [SerializeField] private Sprite evilCrab;
-        [SerializeField] private Sprite evilFish;
 
         [Header("Enemy Dead Variants")]
         [SerializeField] private Sprite deadFox;
         [SerializeField] private Sprite deadCamel;
         [SerializeField] private Sprite deadChimera;
-        [SerializeField] private Sprite deadPig;
-        [SerializeField] private Sprite deadCricket;
-        [SerializeField] private Sprite deadOtter;
-        [SerializeField] private Sprite deadBeetle;
-        [SerializeField] private Sprite deadCrab;
-        [SerializeField] private Sprite deadFish;
 
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
@@ -63,7 +52,7 @@ namespace AutoBattler
             _isEnemy = isEnemy;
 
             if (hpText) hpText.text = Mathf.Max(0, _pet.CurrentHP).ToString();
-            if (damageText) damageText.text = _displayDamage.ToString();
+            if (damageText) damageText.text = _pet.Damage.ToString();
 
             if (petImage)
             {
@@ -95,11 +84,6 @@ namespace AutoBattler
             if (name.Contains("camel")) return evilCamel;
             if (name.Contains("chimera")) return evilChimera;
             if (name.Contains("pig")) return evilPig;
-            if (name.Contains("cricket")) return evilCricket;
-            if (name.Contains("otter")) return evilOtter;
-            if (name.Contains("beetle")) return evilBeetle;
-            if (name.Contains("crab")) return evilCrab;
-            if (name.Contains("fish")) return evilFish;
             return aliveSprite;
         }
 
@@ -112,12 +96,6 @@ namespace AutoBattler
             if (name.Contains("fox")) return deadFox;
             if (name.Contains("camel")) return deadCamel;
             if (name.Contains("chimera")) return deadChimera;
-            if (name.Contains("pig")) return deadPig;
-            if (name.Contains("cricket")) return deadCricket;
-            if (name.Contains("otter")) return deadOtter;
-            if (name.Contains("beetle")) return deadBeetle;
-            if (name.Contains("crab")) return deadCrab;
-            if (name.Contains("fish")) return deadFish;
             return deadSprite;
         }
 

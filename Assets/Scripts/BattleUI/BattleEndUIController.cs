@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using AutoBattler;
+using Game.Runtime;
+using Game.com.game399.shared.Services.Implementation;
+using Game.com.game399.shared.Models;
 
 public class BattleEndUIController : MonoBehaviour
 {
@@ -16,6 +20,7 @@ public class BattleEndUIController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float fadeInDuration = 0.6f;
     [SerializeField] private float messageDisplayTime = 1.5f;
+    [SerializeField] private float exitDelaySeconds = 2f;
 
     [Header("Monster Sprites")]
     [SerializeField] private Sprite evilFox;
@@ -24,19 +29,19 @@ public class BattleEndUIController : MonoBehaviour
     [SerializeField] private Sprite tamedFox;
     [SerializeField] private Sprite tamedCamel;
     [SerializeField] private Sprite tamedChimera;
-    //Generics
-    [SerializeField] private Sprite evilGeneric;
-    [SerializeField] private Sprite tamedGeneric;
-    
+
     private BattleManager _battleManager;
+    private InventoryViewModel _vm;
     private Pet _tameTarget;
     private string _tameTargetName;
 
-    private void Start()
+    void Start()
     {
         SetUIVisible(false);
 
+        _vm = ServiceResolver.Resolve<InventoryViewModel>();
         _battleManager = FindAnyObjectByType<BattleManager>();
+
         if (_battleManager != null)
             _battleManager.OnBattleEnded += HandleBattleEnd;
         else
@@ -45,12 +50,16 @@ public class BattleEndUIController : MonoBehaviour
         tameButton.onClick.AddListener(HandleTameButton);
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         if (_battleManager != null)
             _battleManager.OnBattleEnded -= HandleBattleEnd;
+        tameButton.onClick.RemoveListener(HandleTameButton);
     }
 
+    // -----------------------------------------------------------
+    //  UI Management
+    // -----------------------------------------------------------
     private void SetUIVisible(bool visible)
     {
         overlay.alpha = visible ? 1 : 0;
@@ -58,6 +67,21 @@ public class BattleEndUIController : MonoBehaviour
         overlay.interactable = visible;
     }
 
+    private IEnumerator FadeOverlay(float from, float to, float duration)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            overlay.alpha = Mathf.Lerp(from, to, t / duration);
+            yield return null;
+        }
+        overlay.alpha = to;
+    }
+
+    // -----------------------------------------------------------
+    //  Battle End Handling
+    // -----------------------------------------------------------
     private void HandleBattleEnd(Side winner)
     {
         StartCoroutine(ShowBattleEndSequence(winner));
@@ -69,16 +93,33 @@ public class BattleEndUIController : MonoBehaviour
         monsterImage.gameObject.SetActive(false);
         tameButton.gameObject.SetActive(false);
 
-        // Fade in overlay
         yield return StartCoroutine(FadeOverlay(0f, 1f, fadeInDuration));
+
+        var playerParty = ServiceResolver.Resolve<PlayerPartyModel>();
 
         if (winner == Side.Player)
         {
-            // Step 1: Show victory
             messageText.text = "Victory!!!";
             yield return new WaitForSeconds(messageDisplayTime);
 
-            // Step 2: Switch to Tame Time
+            // If no food
+            if (_vm.FoodCount.Value <= 0)
+            {
+                yield return StartCoroutine(OutOfFoodThenExit());
+                yield break;
+            }
+
+            // If party is full
+            if (playerParty.IsFull)
+            {
+                messageText.text = "Uh oh, you have no pet space :(";
+                yield return new WaitForSeconds(exitDelaySeconds);
+                SetUIVisible(false);
+                ExitBackToPreviousScene();
+                yield break;
+            }
+
+            // Begin taming
             messageText.text = "Woah! Tame Time!";
             yield return new WaitForSeconds(0.5f);
 
@@ -93,64 +134,98 @@ public class BattleEndUIController : MonoBehaviour
             }
 
             tameButton.gameObject.SetActive(true);
-            tameButton.interactable = true;
-            tameButton.GetComponentInChildren<TextMeshProUGUI>().text = "Tame? (Cost 1 Food)";
+            RefreshTameButton();
         }
         else
         {
             messageText.text = "Defeat...";
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(exitDelaySeconds);
             SetUIVisible(false);
+            ExitBackToPreviousScene();
         }
     }
 
+    // -----------------------------------------------------------
+    //  Tame Logic
+    // -----------------------------------------------------------
     private void HandleTameButton()
     {
-        tameButton.interactable = false;
+        if (_vm.FoodCount.Value <= 0)
+        {
+            StartCoroutine(OutOfFoodThenExit());
+            return;
+        }
+
+        _vm.AddFood(-1);
+        RefreshTameButton();
+
         bool success = Random.value <= 0.8f;
         StartCoroutine(HandleTameOutcome(success));
     }
 
     private IEnumerator HandleTameOutcome(bool success)
     {
+        var playerParty = ServiceResolver.Resolve<PlayerPartyModel>();
+
         if (success)
         {
             messageText.text = "You Tamed It!";
             yield return new WaitForSeconds(0.3f);
 
-            // flip to tamed variant
+            // Flip to tamed sprite
             monsterImage.sprite = GetTamedSpriteFor(_tameTargetName);
             monsterImage.color = Color.white;
 
-            yield return new WaitForSeconds(2f);
+            // Add to persistent party
+            playerParty.AddMonster(new TamedMonster(_tameTarget.Name, _tameTarget.MaxHP, _tameTarget.Damage));
+
+            yield return new WaitForSeconds(exitDelaySeconds);
+            SetUIVisible(false);
+            ExitBackToPreviousScene();
         }
         else
         {
-            messageText.text = "You ran out of food...";
-            yield return new WaitForSeconds(2f);
+            if (_vm.FoodCount.Value > 0)
+            {
+                messageText.text = "It resisted… try again?";
+                tameButton.interactable = true;
+                RefreshTameButton();
+            }
+            else
+            {
+                yield return StartCoroutine(OutOfFoodThenExit());
+            }
         }
-
-        Debug.Log("Returning to overworld scene...");
-        SetUIVisible(false);
     }
 
-    private IEnumerator FadeOverlay(float from, float to, float duration)
+    private IEnumerator OutOfFoodThenExit()
     {
-        float t = 0f;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            overlay.alpha = Mathf.Lerp(from, to, t / duration);
-            yield return null;
-        }
+        tameButton.gameObject.SetActive(false);
+        monsterImage.gameObject.SetActive(false);
+        messageText.text = "You ran out of food...";
+        yield return new WaitForSeconds(exitDelaySeconds);
+        SetUIVisible(false);
+        ExitBackToPreviousScene();
     }
 
+    private void RefreshTameButton()
+    {
+        var tmp = tameButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (tmp)
+            tmp.text = $"Tame? (Cost 1 Food)  •  You have {_vm.FoodCount.Value}";
+        tameButton.interactable = _vm.FoodCount.Value > 0;
+    }
+
+    // -----------------------------------------------------------
+    //  Utilities
+    // -----------------------------------------------------------
     private List<Pet> GetEnemyPets()
     {
-        var battleManager = FindAnyObjectByType<BattleManager>();
-        if (battleManager == null) return new List<Pet>();
-        var enemyField = typeof(BattleManager).GetField("_enemy", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        return enemyField?.GetValue(battleManager) as List<Pet> ?? new List<Pet>();
+        var bm = FindAnyObjectByType<BattleManager>();
+        if (bm == null) return new List<Pet>();
+        var field = typeof(BattleManager).GetField("_enemy",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        return field?.GetValue(bm) as List<Pet> ?? new List<Pet>();
     }
 
     private Sprite GetEvilSpriteFor(string name)
@@ -160,9 +235,7 @@ public class BattleEndUIController : MonoBehaviour
             case "fox": return evilFox;
             case "camel": return evilCamel;
             case "chimera": return evilChimera;
-            default:
-                Debug.Log($"[BattleEndUI] Using generic evil sprite for {name}");
-                return evilGeneric;
+            default: return null;
         }
     }
 
@@ -173,9 +246,15 @@ public class BattleEndUIController : MonoBehaviour
             case "fox": return tamedFox;
             case "camel": return tamedCamel;
             case "chimera": return tamedChimera;
-            default:
-                Debug.Log($"[BattleEndUI] Using generic tamed sprite for {name}");
-                return tamedGeneric;
+            default: return null;
         }
+    }
+
+    private void ExitBackToPreviousScene()
+    {
+        var target = string.IsNullOrEmpty(WarpManager.previousSceneName)
+            ? "Game"
+            : WarpManager.previousSceneName;
+        SceneManager.LoadScene(target);
     }
 }
