@@ -40,6 +40,10 @@ namespace Game.Runtime
             var inventoryViewModel = new InventoryViewModel(inventoryModel);
             container.RegisterSingletonInstance(inventoryViewModel);
             
+            var playerPartyModel = new PlayerPartyModel();
+            playerPartyModel.InitializeDefaultPartyIfEmpty(); // ensures starter Fox
+            container.RegisterSingletonInstance(playerPartyModel);
+            
             return container;
         });
     }

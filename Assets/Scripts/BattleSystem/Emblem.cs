@@ -3,8 +3,9 @@ using System;
 namespace AutoBattler
 {
     /// <summary>
-    /// Defines the available Emblems and their RPS relationships.
+    /// Defines the available Emblems and their rock-paper-scissors relationships.
     /// </summary>
+    [Serializable]
     public enum Emblem
     {
         Sword = 0,
@@ -12,6 +13,9 @@ namespace AutoBattler
         Magic = 2
     }
 
+    /// <summary>
+    /// Provides comparison logic for emblem interactions in battle.
+    /// </summary>
     public static class EmblemRules
     {
         /// <summary>
