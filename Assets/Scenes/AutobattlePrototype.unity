@@ -640,7 +640,7 @@ MonoBehaviour:
   - name: Chimera
     maxHp: 7
     emblems: 020000000200000002000000
-  enemyHpRange: {x: 5, y: 7}
+  enemyHpRange: {x: 1, y: 1}
   enemyEmblemCount: {x: 3, y: 3}
 --- !u!4 &583556289
 Transform:
@@ -1216,13 +1216,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1546662976}
   - component: {fileID: 1546662977}
+  - component: {fileID: 1546662978}
   m_Layer: 5
   m_Name: BattleEndUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1546662976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1254,10 +1255,34 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546662975}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1546662978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546662975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1c24a9db1a34da09a8c014bfbe9918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleEndUIController
+  overlay: {fileID: 1546662977}
+  messageText: {fileID: 1213151802}
+  monsterImage: {fileID: 506305925}
+  tameButton: {fileID: 434683997}
+  fadeInDuration: 0.6
+  messageDisplayTime: 1.5
+  evilFox: {fileID: 21300000, guid: e99f83c02959e414c96b7c61a048cbec, type: 3}
+  evilCamel: {fileID: 21300000, guid: 2814f9356565a4413aa6cfcde3b4a3ef, type: 3}
+  evilChimera: {fileID: 21300000, guid: 7ca4bcda9ac224bbdac220e4ba6ca37e, type: 3}
+  tamedFox: {fileID: 21300000, guid: 9fa619a3d8d21423392c7975d0eaf36a, type: 3}
+  tamedCamel: {fileID: 21300000, guid: 2198c2ca03ee447fd9990fb085a2995e, type: 3}
+  tamedChimera: {fileID: 21300000, guid: 4969187e2a57a4fb0ae54d93c1405e78, type: 3}
 --- !u!1 &1859045004
 GameObject:
   m_ObjectHideFlags: 0

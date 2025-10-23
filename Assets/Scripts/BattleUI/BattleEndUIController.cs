@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using AutoBattler;
 
@@ -24,7 +25,7 @@ public class BattleEndUIController : MonoBehaviour
     [SerializeField] private Sprite tamedFox;
     [SerializeField] private Sprite tamedCamel;
     [SerializeField] private Sprite tamedChimera;
-    
+
     private BattleManager _battleManager;
     private Pet _tameTarget;
     private string _tameTargetName;
@@ -55,6 +56,9 @@ public class BattleEndUIController : MonoBehaviour
         overlay.interactable = visible;
     }
 
+    // ---------------------------------------------------------------------
+    // Called automatically when battle ends
+    // ---------------------------------------------------------------------
     private void HandleBattleEnd(Side winner)
     {
         StartCoroutine(ShowBattleEndSequence(winner));
@@ -95,16 +99,23 @@ public class BattleEndUIController : MonoBehaviour
         }
         else
         {
+            // Player lost the battle
             messageText.text = "Defeat...";
             yield return new WaitForSeconds(2f);
-            SetUIVisible(false);
+            SceneManager.LoadScene(WarpManager.previousSceneName);
         }
     }
 
+    // ---------------------------------------------------------------------
+    // Handle Tame Attempt
+    // ---------------------------------------------------------------------
     private void HandleTameButton()
     {
         tameButton.interactable = false;
+
+        // TODO: integrate food check later
         bool success = Random.value <= 0.8f;
+
         StartCoroutine(HandleTameOutcome(success));
     }
 
@@ -115,11 +126,13 @@ public class BattleEndUIController : MonoBehaviour
             messageText.text = "You Tamed It!";
             yield return new WaitForSeconds(0.3f);
 
-            // flip to tamed variant
             monsterImage.sprite = GetTamedSpriteFor(_tameTargetName);
             monsterImage.color = Color.white;
 
             yield return new WaitForSeconds(2f);
+
+            // Later TODO: add to inventory here
+            // InventoryManager.Instance.AddMonster(new MonsterClass(_tameTargetName, ...));
         }
         else
         {
@@ -127,10 +140,13 @@ public class BattleEndUIController : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
 
-        Debug.Log("Returning to overworld scene...");
-        SetUIVisible(false);
+        // Return to overworld scene where player last was
+        SceneManager.LoadScene(WarpManager.previousSceneName);
     }
 
+    // ---------------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------------
     private IEnumerator FadeOverlay(float from, float to, float duration)
     {
         float t = 0f;
@@ -146,7 +162,10 @@ public class BattleEndUIController : MonoBehaviour
     {
         var battleManager = FindAnyObjectByType<BattleManager>();
         if (battleManager == null) return new List<Pet>();
-        var enemyField = typeof(BattleManager).GetField("_enemy", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+        var enemyField = typeof(BattleManager).GetField("_enemy",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
         return enemyField?.GetValue(battleManager) as List<Pet> ?? new List<Pet>();
     }
 
