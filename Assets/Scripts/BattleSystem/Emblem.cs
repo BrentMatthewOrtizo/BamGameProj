@@ -3,8 +3,7 @@ using System;
 namespace AutoBattler
 {
     /// <summary>
-    /// Emblems: duplicates allowed per pet. RPS rules:
-    /// Magic > Shield, Shield > Sword, Sword > Magic
+    /// Defines the available Emblems and their RPS relationships.
     /// </summary>
     public enum Emblem
     {
@@ -16,25 +15,20 @@ namespace AutoBattler
     public static class EmblemRules
     {
         /// <summary>
-        /// +1 if a beats b, -1 if a loses to b, 0 if tie
+        /// Compares two emblems using rock-paper-scissors logic.
+        /// Returns +1 if 'a' wins, -1 if 'a' loses, 0 for tie.
         /// </summary>
         public static int Compare(Emblem a, Emblem b)
         {
             if (a == b) return 0;
 
-            // a beats b cases:
             // Magic > Shield, Shield > Sword, Sword > Magic
             if ((a == Emblem.Magic  && b == Emblem.Shield) ||
                 (a == Emblem.Shield && b == Emblem.Sword)  ||
                 (a == Emblem.Sword  && b == Emblem.Magic))
-            {
                 return +1;
-            }
 
-            return -1; // otherwise a loses to b
+            return -1;
         }
-
-        public static bool Beats(this Emblem a, Emblem b) => Compare(a, b) > 0;
-        public static bool LosesTo(this Emblem a, Emblem b) => Compare(a, b) < 0;
     }
 }
