@@ -35,7 +35,6 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.loop = true;
