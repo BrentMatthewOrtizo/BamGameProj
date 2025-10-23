@@ -11,15 +11,17 @@ namespace AutoBattler
         public string Name;
         public int MaxHP;
         public int CurrentHP;
+        public int Damage;
         public List<Emblem> Emblems = new();
 
         public bool IsAlive => CurrentHP > 0;
 
-        public Pet(string name, int maxHp, IEnumerable<Emblem> emblems)
+        public Pet(string name, int maxHp, IEnumerable<Emblem> emblems, int damage = 1)
         {
             Name = string.IsNullOrWhiteSpace(name) ? "Pet" : name.Trim();
             MaxHP = Mathf.Max(1, maxHp);
             CurrentHP = MaxHP;
+            Damage = Mathf.Max(1, damage); 
             if (emblems != null) Emblems.AddRange(emblems);
         }
 

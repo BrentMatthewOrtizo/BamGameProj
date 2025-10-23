@@ -11,5 +11,8 @@ public class PlayerRespawnAtSavedPosition : MonoBehaviour
         {
             transform.position = WarpManager.previousPosition;
         }
+        var partyHUD = FindAnyObjectByType<Game.Runtime.UI.PartyHUDView>();
+        if (partyHUD != null)
+            partyHUD.Refresh();
     }
 }
