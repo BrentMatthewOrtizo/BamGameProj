@@ -15,6 +15,11 @@ namespace AutoBattler
         public int damagePerWin = 1;
         public int rngSeed = 0;
         public bool autoStart = true;
+        
+        [Header("Audio")]
+        [SerializeField] private AudioSource bgmSource;
+        [SerializeField] private AudioClip battleMusic;
+        [SerializeField, Range(0f, 1f)] private float bgmVolume = 0.6f;
 
         [Header("Flow Timing")]
         public float preDuelDelay = 0.3f;
@@ -70,6 +75,14 @@ namespace AutoBattler
         private void Start()
         {
             _rng = (rngSeed == 0) ? new Random() : new Random(rngSeed);
+            
+            if (bgmSource && battleMusic)
+            {
+                bgmSource.clip = battleMusic;
+                bgmSource.loop = true;
+                bgmSource.volume = bgmVolume;
+                bgmSource.Play();
+            }
 
             if (autoStart)
             {
@@ -218,6 +231,32 @@ namespace AutoBattler
             yield return null;
             var side = (party == _player) ? Side.Player : Side.Enemy;
             OnPartyBuilt?.Invoke(side, party);
+        }
+        
+        private void OnEnable()
+        {
+            OnBattleEnded += winner =>
+            {
+                if (bgmSource)
+                {
+                    StartCoroutine(FadeOutBgm(1.5f));
+                }
+            };
+        }
+
+        private IEnumerator FadeOutBgm(float duration)
+        {
+            if (!bgmSource) yield break;
+            float startVol = bgmSource.volume;
+            float t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                bgmSource.volume = Mathf.Lerp(startVol, 0f, t / duration);
+                yield return null;
+            }
+            bgmSource.Stop();
+            bgmSource.volume = startVol; // reset for next play
         }
     }
 }
