@@ -87,8 +87,7 @@ public class AudioManager : MonoBehaviour
             musicSource.Stop();
         }
     }
-
-    // ------------ Manual Biome Swap (Same Scene) ------------
+    
     public void SwitchBiome(string newBiome)
     {
         if (SceneManager.GetActiveScene().name != "Game") return;
@@ -112,8 +111,7 @@ public class AudioManager : MonoBehaviour
             currentBiome = newBiome;
         }
     }
-
-    // ------------ SOUND EFFECTS ------------
+    
     public void PlayJumpSFX()
     {
         sfxSource.PlayOneShot(jumpSFX);
