@@ -7,8 +7,15 @@ namespace Game.Runtime.UI
 {
     public class PartyHUDView : ObserverMonoBehaviour
     {
-        [SerializeField] private Transform slotParent;     // container for slots
-        [SerializeField] private GameObject slotPrefab;    // prefab for each monster
+        [Header("UI References")]
+        [SerializeField] private Transform slotParent;
+        [SerializeField] private GameObject slotPrefab;
+
+        [Header("Monster Sprites")]
+        [SerializeField] private Sprite foxSprite;
+        [SerializeField] private Sprite camelSprite;
+        [SerializeField] private Sprite chimeraSprite;
+        [SerializeField] private Sprite defaultSprite;
 
         private PlayerPartyModel _partyModel;
 
@@ -20,24 +27,37 @@ namespace Game.Runtime.UI
 
         protected override void Unsubscribe() { }
 
-        /// <summary>
-        /// Refreshes all UI slots to match the current party list.
-        /// </summary>
         public void Refresh()
         {
+            // Clear existing
             foreach (Transform child in slotParent)
                 Destroy(child.gameObject);
 
+            // Create slot for each monster
             foreach (var monster in _partyModel.Party)
             {
                 var slot = Instantiate(slotPrefab, slotParent);
+
+                // Get references
                 var label = slot.GetComponentInChildren<TextMeshProUGUI>();
                 var image = slot.GetComponentInChildren<Image>();
 
-                label.text = monster.name;
+                // Apply correct sprite
+                image.sprite = GetSpriteForMonster(monster.name);
                 image.color = Color.white;
-                // TODO assign sprites for different monsters
+
+                // Set label
+                label.text = monster.name;
             }
+        }
+
+        private Sprite GetSpriteForMonster(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("fox")) return foxSprite;
+            if (name.Contains("camel")) return camelSprite;
+            if (name.Contains("chimera")) return chimeraSprite;
+            return defaultSprite;
         }
     }
 }

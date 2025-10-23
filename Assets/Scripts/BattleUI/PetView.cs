@@ -52,7 +52,7 @@ namespace AutoBattler
             _isEnemy = isEnemy;
 
             if (hpText) hpText.text = Mathf.Max(0, _pet.CurrentHP).ToString();
-            if (damageText) damageText.text = _displayDamage.ToString();
+            if (damageText) damageText.text = _pet.Damage.ToString();
 
             if (petImage)
             {

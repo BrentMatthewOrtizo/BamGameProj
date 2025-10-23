@@ -18237,6 +18237,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.Runtime.UI.PartyHUDView
   slotParent: {fileID: 880576925}
   slotPrefab: {fileID: 1479007698116761679, guid: 8369a1ebcf3ff4c23ba679d502ad43fa, type: 3}
+  foxSprite: {fileID: 21300000, guid: 9fa619a3d8d21423392c7975d0eaf36a, type: 3}
+  camelSprite: {fileID: 21300000, guid: 2198c2ca03ee447fd9990fb085a2995e, type: 3}
+  chimeraSprite: {fileID: 21300000, guid: 4969187e2a57a4fb0ae54d93c1405e78, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 9fa619a3d8d21423392c7975d0eaf36a, type: 3}
 --- !u!114 &880576927
 MonoBehaviour:
   m_ObjectHideFlags: 0

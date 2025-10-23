@@ -11,7 +11,7 @@ namespace AutoBattler
         public string Name;
         public int MaxHP;
         public int CurrentHP;
-        public int Damage;
+        public int Damage;                
         public List<Emblem> Emblems = new();
 
         public bool IsAlive => CurrentHP > 0;
@@ -20,9 +20,11 @@ namespace AutoBattler
         {
             Name = string.IsNullOrWhiteSpace(name) ? "Pet" : name.Trim();
             MaxHP = Mathf.Max(1, maxHp);
+            Damage = Mathf.Max(1, damage);
             CurrentHP = MaxHP;
-            Damage = Mathf.Max(1, damage); 
-            if (emblems != null) Emblems.AddRange(emblems);
+
+            if (emblems != null)
+                Emblems.AddRange(emblems);
         }
 
         public void TakeDamage(int amount)
@@ -32,7 +34,8 @@ namespace AutoBattler
 
         public Emblem ChooseRandomEmblem(System.Random rng)
         {
-            if (Emblems == null || Emblems.Count == 0) return Emblem.Sword;
+            if (Emblems == null || Emblems.Count == 0)
+                return Emblem.Sword;
             return Emblems[rng.Next(Emblems.Count)];
         }
     }

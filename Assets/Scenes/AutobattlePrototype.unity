@@ -630,16 +630,6 @@ MonoBehaviour:
   rollCycleInterval: 0.2
   postRevealDelay: 0.5
   postDamageDelay: 1
-  playerPartyConfig:
-  - name: Fox
-    maxHp: 5
-    emblems: 000000000100000002000000
-  - name: Camel
-    maxHp: 6
-    emblems: 000000000200000001000000
-  - name: Chimera
-    maxHp: 7
-    emblems: 020000000200000002000000
   enemyHpRange: {x: 1, y: 1}
   enemyEmblemCount: {x: 3, y: 3}
 --- !u!4 &583556289
@@ -1277,6 +1267,7 @@ MonoBehaviour:
   tameButton: {fileID: 434683997}
   fadeInDuration: 0.6
   messageDisplayTime: 1.5
+  exitDelaySeconds: 2
   evilFox: {fileID: 21300000, guid: e99f83c02959e414c96b7c61a048cbec, type: 3}
   evilCamel: {fileID: 21300000, guid: 2814f9356565a4413aa6cfcde3b4a3ef, type: 3}
   evilChimera: {fileID: 21300000, guid: 7ca4bcda9ac224bbdac220e4ba6ca37e, type: 3}
@@ -1486,6 +1477,8 @@ GameObject:
   - component: {fileID: 2114958546}
   - component: {fileID: 2114958545}
   - component: {fileID: 2114958544}
+  - component: {fileID: 2114958549}
+  - component: {fileID: 2114958548}
   m_Layer: 5
   m_Name: BattleCanvas
   m_TagString: Untagged
@@ -1578,6 +1571,44 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2114958548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114958543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 8469043509616876191, guid: 54a73da7f91a447db880313e4f9f57a8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2114958549
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114958543}
+  m_CullTransparentMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
