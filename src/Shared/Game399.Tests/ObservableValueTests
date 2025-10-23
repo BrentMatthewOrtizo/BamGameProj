@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace Game399.Tests;
 
+[TestFixture]
 public class ObservableValueTests
 {
     [Test]
