@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AutobattlePrototype.unity
     guid: 98bc2f4e1b1ba4c93a0826452e2a8213
+  - enabled: 1
+    path: Assets/Scenes/Heaven.unity
+    guid: 30c4abfa832a879438dc18afc7e3ba13
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
