@@ -33,7 +33,7 @@ public class RandomWarpZone : MonoBehaviour
             }
             else
             {
-                Log.Error("Warp did not trigger; player continues exploring.");
+                Log.Info("Warp did not trigger; player continues exploring.");
             }
         }
     }

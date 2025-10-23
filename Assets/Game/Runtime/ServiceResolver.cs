@@ -2,6 +2,8 @@ using System;
 using DependencyInjection;
 using Game399.Shared;
 using DependencyInjection.Implementation;
+using Game.com.game399.shared.Models;
+using Game.com.game399.shared.Services.Implementation;
 using Game399.Shared.Diagnostics;
 using Game399.Shared.Models;
 using Game399.Shared.Services;
@@ -31,6 +33,12 @@ namespace Game.Runtime
 
             var damageService = new DamageService(logger);
             container.RegisterSingletonInstance<IDamageService>(damageService);
+            
+            var inventoryModel = new InventoryModel();
+            container.RegisterSingletonInstance(inventoryModel);
+
+            var inventoryViewModel = new InventoryViewModel(inventoryModel);
+            container.RegisterSingletonInstance(inventoryViewModel);
             
             return container;
         });
