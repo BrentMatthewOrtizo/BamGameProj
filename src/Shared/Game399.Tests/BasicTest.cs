@@ -3,7 +3,7 @@
 //using Game399.Shared;
 
 namespace Game399.Tests;
-
+[TestFixture]
 public class BasicTest
 {
     [Test]
@@ -18,6 +18,6 @@ public class BasicTest
         string actual = $"{firstName} {lastName}";
 
         // Assert
-        Assert.Equal(expected, actual);
+        Assert.That(expected, Is.EqualTo(actual));
     }
 }
