@@ -929,6 +929,9 @@
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Splines.Editor">
+      <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Splines.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
     </Reference>
@@ -958,6 +961,9 @@
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
@@ -1049,6 +1055,9 @@
     <Reference Include="Unity.Multiplayer.Center.Common">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Multiplayer.Center.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll</HintPath>
     </Reference>
@@ -1090,6 +1099,9 @@
     </Reference>
     <Reference Include="Unity.Settings.Editor">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Settings.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Splines">
+      <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/Unity.Splines.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>/Users/avadecristofaro/Documents/Unity_Projects/BamGameProj/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
