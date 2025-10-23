@@ -14,17 +14,17 @@ namespace AutoBattler
         [SerializeField] private TextMeshProUGUI damageText;
         [SerializeField] private Image emblemImage;
 
-        [Header("Sprites (optional)")]
+        [Header("Sprites")]
         [SerializeField] private Sprite aliveSprite;
         [SerializeField] private Sprite deadSprite;
         [SerializeField] private Sprite swordSprite;
         [SerializeField] private Sprite shieldSprite;
         [SerializeField] private Sprite magicSprite;
-        
+
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip[] hitSounds;
-        
+
         private Pet _pet;
         private int _displayDamage;
         private bool _isEnemy;
@@ -50,17 +50,16 @@ namespace AutoBattler
             }
 
             if (emblemImage) emblemImage.enabled = false;
-
             if (!_pet.IsAlive) ShowDeadVisual();
         }
 
+        // --- Emblem Rolling ---
         public void BeginEmblemRoll(float intervalSeconds)
         {
             if (!emblemImage || _pet == null || _pet.Emblems == null || _pet.Emblems.Count == 0)
                 return;
 
             emblemImage.enabled = true;
-
             if (_emblemRoutine != null) StopCoroutine(_emblemRoutine);
             _spinning = true;
             _emblemRoutine = StartCoroutine(SpinEmblems(intervalSeconds));
@@ -79,32 +78,7 @@ namespace AutoBattler
             {
                 emblemImage.enabled = true;
                 emblemImage.sprite = GetEmblemSprite(finalEmblem);
-                StartCoroutine(PopScale(emblemImage.rectTransform)); // 👈 new animation
-            }
-        }
-        
-        private IEnumerator PopScale(RectTransform target)
-        {
-            Vector3 originalScale = target.localScale;
-            Vector3 enlargedScale = originalScale * 1.3f; // slightly bigger
-            float speed = 8f;
-
-            // Grow
-            float t = 0f;
-            while (t < 1f)
-            {
-                t += Time.deltaTime * speed;
-                target.localScale = Vector3.Lerp(originalScale, enlargedScale, t);
-                yield return null;
-            }
-
-            // Shrink back
-            t = 0f;
-            while (t < 1f)
-            {
-                t += Time.deltaTime * speed;
-                target.localScale = Vector3.Lerp(enlargedScale, originalScale, t);
-                yield return null;
+                StartCoroutine(PopScale(emblemImage.rectTransform));
             }
         }
 
@@ -120,17 +94,38 @@ namespace AutoBattler
             }
         }
 
-        private Sprite GetEmblemSprite(Emblem e)
+        private IEnumerator PopScale(RectTransform target)
         {
-            return e switch
+            Vector3 original = target.localScale;
+            Vector3 enlarged = original * 1.3f;
+            float speed = 8f;
+
+            float t = 0f;
+            while (t < 1f)
             {
-                Emblem.Sword => swordSprite,
-                Emblem.Shield => shieldSprite,
-                Emblem.Magic => magicSprite,
-                _ => null
-            };
+                t += Time.deltaTime * speed;
+                target.localScale = Vector3.Lerp(original, enlarged, t);
+                yield return null;
+            }
+
+            t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * speed;
+                target.localScale = Vector3.Lerp(enlarged, original, t);
+                yield return null;
+            }
         }
 
+        private Sprite GetEmblemSprite(Emblem e) => e switch
+        {
+            Emblem.Sword => swordSprite,
+            Emblem.Shield => shieldSprite,
+            Emblem.Magic => magicSprite,
+            _ => null
+        };
+
+        // --- Damage & Death Visuals ---
         public void UpdateHp()
         {
             if (_pet != null && hpText)
@@ -140,14 +135,24 @@ namespace AutoBattler
         public void FlashHit()
         {
             if (!petImage) return;
-            
+            PlayRandomHit();
+            StartCoroutine(FlashCoroutine());
+        }
+
+        public void PlayDeathHit()
+        {
+            PlayRandomHit();
+            StartCoroutine(FlashCoroutine());
+        }
+
+        private void PlayRandomHit()
+        {
             if (audioSource != null && hitSounds != null && hitSounds.Length > 0)
             {
                 var clip = hitSounds[Random.Range(0, hitSounds.Length)];
+                audioSource.pitch = Random.Range(0.95f, 1.05f); // subtle variation
                 audioSource.PlayOneShot(clip);
             }
-            
-            StartCoroutine(FlashCoroutine());
         }
 
         private IEnumerator FlashCoroutine()
@@ -161,29 +166,20 @@ namespace AutoBattler
         public void ShowDeadVisual()
         {
             if (!petImage) return;
-
-            // Switch to dead sprite
-            if (deadSprite) 
-                petImage.sprite = deadSprite;
-
-            // Gray tint
+            if (deadSprite) petImage.sprite = deadSprite;
             petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-            // Flip upside down for dramatic effect
             var rt = petImage.rectTransform;
             var rot = rt.localEulerAngles;
-            rot.x = 180f; // flip vertically
+            rot.x = 180f;
             rt.localEulerAngles = rot;
 
-            // Hide emblem (dead creatures no longer roll)
-            if (emblemImage)
-                emblemImage.enabled = false;
+            if (emblemImage) emblemImage.enabled = false;
         }
 
         public void HideEmblem()
         {
-            if (emblemImage)
-                emblemImage.enabled = false;
+            if (emblemImage) emblemImage.enabled = false;
         }
     }
 }

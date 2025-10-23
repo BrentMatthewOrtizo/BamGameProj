@@ -26,6 +26,7 @@ namespace AutoBattler
             battleManager.OnRollResolved += HandleRollResolved;
             battleManager.OnDamageApplied += HandleDamageApplied;
             battleManager.OnPetDied += HandlePetDied;
+            battleManager.OnPetKilledFinal += HandlePetKilledFinal;
         }
 
         void OnDisable()
@@ -37,6 +38,7 @@ namespace AutoBattler
             battleManager.OnRollResolved -= HandleRollResolved;
             battleManager.OnDamageApplied -= HandleDamageApplied;
             battleManager.OnPetDied -= HandlePetDied;
+            battleManager.OnPetKilledFinal -= HandlePetKilledFinal;
         }
 
         private void HandlePartyBuilt(Side side, List<Pet> pets)
@@ -61,7 +63,8 @@ namespace AutoBattler
 
         private void HandleRollStart(Pet p1, Pet p2)
         {
-            foreach (var v in _views.Values) v.HideEmblem();
+            foreach (var v in _views.Values)
+                v.HideEmblem();
 
             if (_views.TryGetValue(p1, out var v1))
                 v1.BeginEmblemRoll(battleManager.rollCycleInterval);
@@ -95,6 +98,15 @@ namespace AutoBattler
         {
             if (_views.TryGetValue(pet, out var v))
                 v.ShowDeadVisual();
+        }
+
+        private void HandlePetKilledFinal(Pet pet, Side side)
+        {
+            if (_views.TryGetValue(pet, out var v))
+            {
+                v.PlayDeathHit();
+                v.ShowDeadVisual();
+            }
         }
     }
 }

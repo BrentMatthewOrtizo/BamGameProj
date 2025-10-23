@@ -47,6 +47,7 @@ namespace AutoBattler
         public event Action<Pet, Pet, Emblem, Emblem, int> OnRollResolved;
         public event Action<Pet, Pet, int> OnDamageApplied;
         public event Action<Pet> OnPetDied;
+        public event Action<Pet, Side> OnPetKilledFinal; // plays death sound correctly
         public event Action<Side> OnBattleEnded;
         #endregion
 
@@ -95,6 +96,7 @@ namespace AutoBattler
                 _player.Add(new Pet(c.name, c.maxHp, c.emblems));
             }
 
+            // Reverse order so rightmost pet attacks first
             _player.Reverse();
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
@@ -129,10 +131,11 @@ namespace AutoBattler
                     Emblem e1, e2;
                     int cmp;
 
-                    // Start emblem roll animation
+                    // Begin emblem spin for both pets
                     OnRollStart?.Invoke(p1, p2);
                     yield return new WaitForSeconds(rollTotalDuration);
 
+                    // Keep rerolling until there’s a winner
                     do
                     {
                         e1 = p1.ChooseRandomEmblem(_rng);
@@ -146,13 +149,29 @@ namespace AutoBattler
                     }
                     while (cmp == 0);
 
-                    if (cmp > 0) p2.TakeDamage(damagePerWin);
-                    else p1.TakeDamage(damagePerWin);
-
-                    OnDamageApplied?.Invoke(p1, p2, (cmp > 0) ? 0 : 1);
-
-                    if (!p1.IsAlive) HandleDeath(_player, p1);
-                    if (!p2.IsAlive) HandleDeath(_enemy, p2);
+                    // Apply damage + delay
+                    if (cmp > 0)
+                    {
+                        p2.TakeDamage(damagePerWin);
+                        OnDamageApplied?.Invoke(p1, p2, 0);
+                        if (!p2.IsAlive)
+                        {
+                            yield return new WaitForSeconds(0.15f);
+                            OnPetKilledFinal?.Invoke(p2, Side.Enemy);
+                            HandleDeath(_enemy, p2);
+                        }
+                    }
+                    else if (cmp < 0)
+                    {
+                        p1.TakeDamage(damagePerWin);
+                        OnDamageApplied?.Invoke(p1, p2, 1);
+                        if (!p1.IsAlive)
+                        {
+                            yield return new WaitForSeconds(0.15f);
+                            OnPetKilledFinal?.Invoke(p1, Side.Player);
+                            HandleDeath(_player, p1);
+                        }
+                    }
 
                     yield return new WaitForSeconds(postDamageDelay);
                 }
