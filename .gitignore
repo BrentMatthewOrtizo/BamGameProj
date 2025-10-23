@@ -52,7 +52,6 @@ crashlytics-build.properties
 .consulo/
 .gradle/
 ExportedObj/
-*.csproj
 *.unityproj
 *.sln
 *.suo
