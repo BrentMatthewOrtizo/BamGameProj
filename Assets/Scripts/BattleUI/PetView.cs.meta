@@ -1,2 +1,20 @@
 fileFormatVersion: 2
 guid: b3362554206de4ef08d598da0e163610
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - petImage: {instanceID: 0}
+  - hpText: {instanceID: 0}
+  - damageText: {instanceID: 0}
+  - emblemImage: {instanceID: 0}
+  - aliveSprite: {instanceID: 0}
+  - deadSprite: {instanceID: 0}
+  - swordSprite: {instanceID: 0}
+  - shieldSprite: {instanceID: 0}
+  - magicSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

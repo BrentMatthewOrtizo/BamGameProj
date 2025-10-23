@@ -70,10 +70,37 @@ namespace AutoBattler
                 StopCoroutine(_emblemRoutine);
                 _emblemRoutine = null;
             }
+
             if (emblemImage)
             {
                 emblemImage.enabled = true;
                 emblemImage.sprite = GetEmblemSprite(finalEmblem);
+                StartCoroutine(PopScale(emblemImage.rectTransform)); // 👈 new animation
+            }
+        }
+        
+        private IEnumerator PopScale(RectTransform target)
+        {
+            Vector3 originalScale = target.localScale;
+            Vector3 enlargedScale = originalScale * 1.3f; // slightly bigger
+            float speed = 8f;
+
+            // Grow
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * speed;
+                target.localScale = Vector3.Lerp(originalScale, enlargedScale, t);
+                yield return null;
+            }
+
+            // Shrink back
+            t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * speed;
+                target.localScale = Vector3.Lerp(enlargedScale, originalScale, t);
+                yield return null;
             }
         }
 
@@ -122,9 +149,24 @@ namespace AutoBattler
 
         public void ShowDeadVisual()
         {
-            if (deadSprite && petImage) petImage.sprite = deadSprite;
-            if (petImage) petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-            if (emblemImage) emblemImage.enabled = false;
+            if (!petImage) return;
+
+            // Switch to dead sprite
+            if (deadSprite) 
+                petImage.sprite = deadSprite;
+
+            // Gray tint
+            petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+            // Flip upside down for dramatic effect
+            var rt = petImage.rectTransform;
+            var rot = rt.localEulerAngles;
+            rot.x = 180f; // flip vertically
+            rt.localEulerAngles = rot;
+
+            // Hide emblem (dead creatures no longer roll)
+            if (emblemImage)
+                emblemImage.enabled = false;
         }
 
         public void HideEmblem()
