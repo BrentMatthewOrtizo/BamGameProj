@@ -20,7 +20,11 @@ namespace AutoBattler
         [SerializeField] private Sprite swordSprite;
         [SerializeField] private Sprite shieldSprite;
         [SerializeField] private Sprite magicSprite;
-
+        
+        [Header("Audio")]
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip[] hitSounds;
+        
         private Pet _pet;
         private int _displayDamage;
         private bool _isEnemy;
@@ -136,6 +140,13 @@ namespace AutoBattler
         public void FlashHit()
         {
             if (!petImage) return;
+            
+            if (audioSource != null && hitSounds != null && hitSounds.Length > 0)
+            {
+                var clip = hitSounds[Random.Range(0, hitSounds.Length)];
+                audioSource.PlayOneShot(clip);
+            }
+            
             StartCoroutine(FlashCoroutine());
         }
 
