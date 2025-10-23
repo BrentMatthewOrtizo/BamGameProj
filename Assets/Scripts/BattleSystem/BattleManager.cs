@@ -95,9 +95,8 @@ namespace AutoBattler
                 _player.Add(new Pet(c.name, c.maxHp, c.emblems));
             }
 
-            // Make player's list = [far, mid, front] so the *last* item is the attacker
+            // Reverse so the *last* item (rightmost) is the first attacker
             _player.Reverse();
-
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
             _enemy.Clear();
@@ -111,7 +110,6 @@ namespace AutoBattler
                 string name = names[_rng.Next(names.Length)];
                 _enemy.Add(new Pet(name, hp, ems));
             }
-            // Enemy list is already [front, mid, far]
             OnPartyBuilt?.Invoke(Side.Enemy, _enemy);
 
             OnBattleStart?.Invoke();
@@ -125,15 +123,15 @@ namespace AutoBattler
                 var p2 = FirstAlive(_enemy, true);   // Enemy frontmost
                 OnDuelStart?.Invoke(p1, p2);
 
-                // Small pause before duel starts (visual clarity)
+                // Small pause before duel starts (for visual clarity)
                 yield return new WaitForSeconds(0.6f);
 
                 while (p1.IsAlive && p2.IsAlive)
                 {
                     Emblem e1, e2;
                     int cmp;
+                    int tieCount = 0; // <-- NEW: track ties
 
-                    // keep rerolling until there’s a winner
                     do
                     {
                         e1 = p1.ChooseRandomEmblem(_rng);
@@ -144,25 +142,36 @@ namespace AutoBattler
                         int result = cmp > 0 ? 0 : (cmp < 0 ? 1 : -1);
                         OnRollResolved?.Invoke(p1, p2, e1, e2, result);
 
-                        // Give time for players to see rolls even if it ties
+                        // Pause for players to see the emblems
                         yield return new WaitForSeconds(0.7f);
 
-                    } while (cmp == 0); // reroll until winner is found
+                        if (cmp == 0)
+                        {
+                            tieCount++;
+                            // After 3 ties, pick random winner to avoid freeze
+                            if (tieCount >= 3)
+                            {
+                                cmp = (_rng.Next(2) == 0) ? 1 : -1; // random winner
+                                Debug.LogWarning($"[BattleManager] Forced winner after 3 ties!");
+                            }
+                        }
+
+                    } while (cmp == 0); // reroll until a winner
 
                     // Apply damage
-                    if (cmp > 0) // player wins
+                    if (cmp > 0) // Player wins
                         p2.TakeDamage(damagePerWin);
-                    else if (cmp < 0) // enemy wins
+                    else if (cmp < 0) // Enemy wins
                         p1.TakeDamage(damagePerWin);
 
                     if (!p1.IsAlive) HandleDeath(_player, p1);
                     if (!p2.IsAlive) HandleDeath(_enemy, p2);
 
-                    // small pause between rolls inside same duel
+                    // Small pause between rolls inside same duel
                     yield return new WaitForSeconds(0.5f);
                 }
 
-                // small pause between duels (next pets)
+                // Small pause between duels
                 yield return new WaitForSeconds(0.8f);
             }
 
@@ -174,19 +183,19 @@ namespace AutoBattler
         {
             if (isEnemy)
             {
-                // Enemy: pick from left to right (closest to center first)
+                // Enemy: leftmost to right (closest to center first)
                 for (int i = 0; i < list.Count; i++)
                     if (list[i].IsAlive) return list[i];
             }
             else
             {
-                // Player: pick from right to left (closest to center first)
+                // Player: rightmost to left (closest to center first)
                 for (int i = list.Count - 1; i >= 0; i--)
                     if (list[i].IsAlive) return list[i];
             }
             return null;
         }
-        
+
         private void HandleDeath(List<Pet> party, Pet pet)
         {
             OnPetDied?.Invoke(pet);
@@ -194,9 +203,9 @@ namespace AutoBattler
             if (party.Remove(pet))
             {
                 if (party == _player)
-                    party.Insert(0, pet); // Player: dead to far left
+                    party.Insert(0, pet); // Player: dead pets move far left
                 else
-                    party.Add(pet);       // Enemy: dead to far right
+                    party.Add(pet);       // Enemy: dead pets move far right
             }
 
             StartCoroutine(RebuildAfterDelay(party));
@@ -204,7 +213,7 @@ namespace AutoBattler
 
         private IEnumerator RebuildAfterDelay(List<Pet> party)
         {
-            yield return null; // one frame is enough for stability
+            yield return null; // one frame delay for UI rebuild safety
             var side = (party == _player) ? Side.Player : Side.Enemy;
             OnPartyBuilt?.Invoke(side, party);
         }
