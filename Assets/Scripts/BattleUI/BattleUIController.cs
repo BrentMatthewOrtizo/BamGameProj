@@ -1,61 +1,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace AutoBattler
 {
     public class BattleUIController : MonoBehaviour
     {
-        [Header("Scene Refs")]
+        [Header("Scene References")]
         [SerializeField] private BattleManager battleManager;
         [SerializeField] private RectTransform playerRow;
         [SerializeField] private RectTransform enemyRow;
         [SerializeField] private EmblemRollPanel emblemRollPanel;
         [SerializeField] private FloatingTextSpawner floatingTextSpawner;
+        [SerializeField] private BattleResultPanel resultPanel;
 
         [Header("Prefabs")]
         [SerializeField] private PetView petViewPrefab;
 
         [Header("Colors")]
-        [SerializeField] private Color damageColor = new Color(1f, .3f, .3f);
+        [SerializeField] private Color damageColor = new Color(1f, 0.3f, 0.3f);
 
-        readonly Dictionary<Pet, PetView> _views = new();
-        readonly HashSet<Pet> _enemySide = new();
-
-        void OnEnable()
+        private readonly Dictionary<Pet, PetView> _views = new();
+        private readonly HashSet<Pet> _enemySide = new();
+        
+        private void OnEnable()
         {
-            if (!battleManager) battleManager = FindFirstObjectByType<BattleManager>();
+            if (!battleManager)
+                battleManager = FindAnyObjectByType<BattleManager>();
             if (!battleManager) return;
 
+            // Subscribe to BattleManager events
             battleManager.OnPartyBuilt += HandlePartyBuilt;
             battleManager.OnDuelStart += HandleDuelStart;
             battleManager.OnRollResolved += HandleRollResolved;
             battleManager.OnPetDied += HandlePetDied;
-            // battleManager.OnBattleEnded -> we’ll hook for ResultPanel later
+            battleManager.OnBattleEnded += HandleBattleEnded;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (!battleManager) return;
+
+            // Unsubscribe to prevent memory leaks
             battleManager.OnPartyBuilt -= HandlePartyBuilt;
             battleManager.OnDuelStart -= HandleDuelStart;
             battleManager.OnRollResolved -= HandleRollResolved;
             battleManager.OnPetDied -= HandlePetDied;
+            battleManager.OnBattleEnded -= HandleBattleEnded;
         }
 
-        void HandlePartyBuilt(Side side, List<Pet> pets)
+        // PARTY SETUP
+        private void HandlePartyBuilt(Side side, List<Pet> pets)
         {
             if (side == Side.Player)
-                BuildRow(playerRow, pets, isEnemy:false);
+                BuildRow(playerRow, pets, isEnemy: false);
             else
-                BuildRow(enemyRow, pets, isEnemy:true);
+                BuildRow(enemyRow, pets, isEnemy: true);
         }
 
-        void BuildRow(RectTransform row, List<Pet> pets, bool isEnemy)
+        private void BuildRow(RectTransform row, List<Pet> pets, bool isEnemy)
         {
-            // clear old
-            for (int i = row.childCount - 1; i >= 0; i--) Destroy(row.GetChild(i).gameObject);
+            // Remove any previous UI children
+            for (int i = row.childCount - 1; i >= 0; i--)
+                Destroy(row.GetChild(i).gameObject);
 
+            // Instantiate UI PetViews
             foreach (var pet in pets)
             {
                 var v = Instantiate(petViewPrefab, row);
@@ -64,14 +74,14 @@ namespace AutoBattler
                 if (isEnemy) _enemySide.Add(pet);
             }
         }
-
-        void HandleDuelStart(Pet p1, Pet p2)
+        
+        // BATTLE FLOW EVENTS
+        private void HandleDuelStart(Pet p1, Pet p2)
         {
-            // highlight front pets
             HighlightOnly(p1, p2);
         }
 
-        void HighlightOnly(Pet a, Pet b)
+        private void HighlightOnly(Pet a, Pet b)
         {
             foreach (var kv in _views)
                 kv.Value.SetHighlight(false);
@@ -80,12 +90,12 @@ namespace AutoBattler
             if (_views.TryGetValue(b, out var bv)) bv.SetHighlight(true);
         }
 
-        void HandleRollResolved(Pet p1, Pet p2, Emblem e1, Emblem e2, int winnerIndex)
+        private void HandleRollResolved(Pet p1, Pet p2, Emblem e1, Emblem e2, int winnerIndex)
         {
-            // spin panel
+            // Show emblem roll (both sides’ emblems and highlight winner)
             emblemRollPanel?.ShowSpin(p1.Emblems, e1, p2.Emblems, e2, winnerIndex);
 
-            // show damage number & attack nudge
+            // Apply visual damage & text popups
             if (winnerIndex == 0)
             {
                 // p1 wins: p2 takes damage
@@ -108,18 +118,26 @@ namespace AutoBattler
                 if (_views.TryGetValue(p2, out var av))
                     av.PlayAttackNudge(toRight: false);
             }
-            // tie => nothing
         }
 
-        void HandlePetDied(Pet pet)
+        private void HandlePetDied(Pet pet)
         {
             if (!_views.TryGetValue(pet, out var v)) return;
             v.ShowDead();
 
-            // move to end of its row
+            // Move to end of its row
             var row = v.transform.parent as RectTransform;
             v.transform.SetSiblingIndex(row.childCount - 1);
             v.SetHighlight(false);
+        }
+
+        private void HandleBattleEnded(Side winner)
+        {
+            Debug.Log($"[BattleUIController] HandleBattleEnded called. Winner: {winner}");
+            if (winner == Side.Player)
+                resultPanel.ShowVictory();
+            else
+                resultPanel.ShowDefeat();
         }
     }
 }
