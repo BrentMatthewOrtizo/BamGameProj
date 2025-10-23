@@ -118,16 +118,22 @@ namespace AutoBattler
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
             _enemy.Clear();
-            var names = new[] { "Cricket", "Pig", "Otter", "Beetle", "Crab", "Fish" };
+
+            // ✅ Only use the 3 defined monsters
+            var names = new[] { "Fox", "Camel", "Chimera" };
+
             for (int i = 0; i < maxPartySize; i++)
             {
                 int hp = _rng.Next(enemyHpRange.x, enemyHpRange.y + 1);
                 int eCnt = _rng.Next(enemyEmblemCount.x, enemyEmblemCount.y + 1);
                 var ems = new List<Emblem>(eCnt);
-                for (int j = 0; j < eCnt; j++) ems.Add((Emblem)_rng.Next(0, 3));
+                for (int j = 0; j < eCnt; j++)
+                    ems.Add((Emblem)_rng.Next(0, 3));
+
                 string name = names[_rng.Next(names.Length)];
                 _enemy.Add(new Pet(name, hp, ems));
             }
+
             OnPartyBuilt?.Invoke(Side.Enemy, _enemy);
         }
 

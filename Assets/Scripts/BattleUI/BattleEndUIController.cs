@@ -24,9 +24,6 @@ public class BattleEndUIController : MonoBehaviour
     [SerializeField] private Sprite tamedFox;
     [SerializeField] private Sprite tamedCamel;
     [SerializeField] private Sprite tamedChimera;
-    //Generics
-    [SerializeField] private Sprite evilGeneric;
-    [SerializeField] private Sprite tamedGeneric;
     
     private BattleManager _battleManager;
     private Pet _tameTarget;
@@ -160,9 +157,7 @@ public class BattleEndUIController : MonoBehaviour
             case "fox": return evilFox;
             case "camel": return evilCamel;
             case "chimera": return evilChimera;
-            default:
-                Debug.Log($"[BattleEndUI] Using generic evil sprite for {name}");
-                return evilGeneric;
+            default: return null;
         }
     }
 
@@ -173,9 +168,7 @@ public class BattleEndUIController : MonoBehaviour
             case "fox": return tamedFox;
             case "camel": return tamedCamel;
             case "chimera": return tamedChimera;
-            default:
-                Debug.Log($"[BattleEndUI] Using generic tamed sprite for {name}");
-                return tamedGeneric;
+            default: return null;
         }
     }
 }
