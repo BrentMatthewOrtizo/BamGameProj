@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -20,7 +21,7 @@ namespace AutoBattler
         /// <param name="pet">Back-end pet data.</param>
         /// <param name="damageToShow">Usually BattleManager.damagePerWin.</param>
         /// <param name="sprite">Optional sprite for the pet.</param>
-        public void Setup(Pet pet, int damageToShow, Sprite sprite = null)
+        public void Setup(Pet pet, int damageToShow, Sprite sprite = null, bool isEnemy = false)
         {
             _pet = pet;
             _displayDamage = damageToShow;
@@ -29,6 +30,11 @@ namespace AutoBattler
             if (damageText) damageText.text = _displayDamage.ToString();
 
             if (sprite && petImage) petImage.sprite = sprite;
+
+            // Flip horizontally if this is an enemy
+            var scale = transform.localScale;
+            scale.x = isEnemy ? -1f : 1f;
+            transform.localScale = scale;
         }
 
         public void UpdateHp()
@@ -54,5 +60,23 @@ namespace AutoBattler
             var rt = (RectTransform)transform;
             rt.anchoredPosition += new Vector2(toRight ? 14f : -14f, 0f);
         }
+        
+        public void FlashHit()
+        {
+            if (!petImage) return;
+            StartCoroutine(FlashCoroutine());
+        }
+
+        private IEnumerator FlashCoroutine()
+        {
+            Color original = petImage.color;
+            petImage.color = Color.red;
+            yield return new WaitForSeconds(0.2f);
+            petImage.color = original;
+        }
+        
+        
+        
+        
     }
 }
