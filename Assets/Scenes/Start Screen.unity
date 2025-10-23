@@ -1946,6 +1946,50 @@ MonoBehaviour:
   itemPickupSFX: {fileID: 8300000, guid: b8f715933122350468da6ba3dd6f5262, type: 3}
   obeliskInteractSFX: {fileID: 8300000, guid: 5cb8500aac1e02f4d8744e35aab9c1e4, type: 3}
   startScreenButton: {fileID: 8300000, guid: e7a0277869534486f93750a925b2571a, type: 3}
+--- !u!1 &1823784354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823784356}
+  - component: {fileID: 1823784355}
+  m_Layer: 0
+  m_Name: PickupTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1823784355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823784354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7481bf4029c6354db7c14b26e736511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupTracker
+--- !u!4 &1823784356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823784354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.45722, y: -0.37667, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1954,3 +1998,4 @@ SceneRoots:
   - {fileID: 285362090}
   - {fileID: 1246123669}
   - {fileID: 419570902}
+  - {fileID: 1823784356}
