@@ -16,10 +16,6 @@
         <PackageReference Include="NUnit3TestAdapter" Version="4.6.0"/>
     </ItemGroup>
 
-    <!-- <ItemGroup> -->
-      <!--  <Using Include="NUnit.Framework"/> -->
-  <!--  </ItemGroup> -->
-
     <ItemGroup>
         <ProjectReference Include="../Game399.Shared/Game399.Shared.csproj" />
     </ItemGroup>
