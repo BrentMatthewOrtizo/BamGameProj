@@ -10,5 +10,6 @@ public class StartScreen : MonoBehaviour
     {
         Log.Info("Player started the game and entered the desert biome.");
         SceneManager.LoadSceneAsync(2);
+        AudioManager.Instance?.PlayStartScreenButton();
     }
 }
