@@ -94,6 +94,10 @@ namespace AutoBattler
                 var c = playerPartyConfig[i];
                 _player.Add(new Pet(c.name, c.maxHp, c.emblems));
             }
+
+            // Make player's list = [far, mid, front] so the *last* item is the attacker
+            _player.Reverse();
+
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
             _enemy.Clear();
@@ -107,7 +111,9 @@ namespace AutoBattler
                 string name = names[_rng.Next(names.Length)];
                 _enemy.Add(new Pet(name, hp, ems));
             }
+            // Enemy list is already [front, mid, far]
             OnPartyBuilt?.Invoke(Side.Enemy, _enemy);
+
             OnBattleStart?.Invoke();
         }
 
@@ -115,42 +121,49 @@ namespace AutoBattler
         {
             while (FirstAlive(_player) != null && FirstAlive(_enemy) != null)
             {
-                var p1 = FirstAlive(_player, false); // player left → right
-                var p2 = FirstAlive(_enemy, true);   // enemy right → left
+                var p1 = FirstAlive(_player, false); // Player frontmost
+                var p2 = FirstAlive(_enemy, true);   // Enemy frontmost
                 OnDuelStart?.Invoke(p1, p2);
+
+                // Small pause before duel starts (visual clarity)
+                yield return new WaitForSeconds(0.6f);
 
                 while (p1.IsAlive && p2.IsAlive)
                 {
-                    // keep rerolling until we get a winner
+                    Emblem e1, e2;
                     int cmp;
-                    Emblem e1;
-                    Emblem e2;
 
+                    // keep rerolling until there’s a winner
                     do
                     {
                         e1 = p1.ChooseRandomEmblem(_rng);
                         e2 = p2.ChooseRandomEmblem(_rng);
                         cmp = EmblemRules.Compare(e1, e2);
 
-                        OnRollResolved?.Invoke(p1, p2, e1, e2, cmp < 0 ? 1 : (cmp > 0 ? 0 : -1));
-                        if (rollDelaySeconds > 0f)
-                            yield return new WaitForSeconds(rollDelaySeconds);
-                    }
-                    while (cmp == 0); // reroll until not a tie
+                        // -1 = tie, 0 = player wins, 1 = enemy wins
+                        int result = cmp > 0 ? 0 : (cmp < 0 ? 1 : -1);
+                        OnRollResolved?.Invoke(p1, p2, e1, e2, result);
 
-                    // apply result
-                    if (cmp > 0)
+                        // Give time for players to see rolls even if it ties
+                        yield return new WaitForSeconds(0.7f);
+
+                    } while (cmp == 0); // reroll until winner is found
+
+                    // Apply damage
+                    if (cmp > 0) // player wins
                         p2.TakeDamage(damagePerWin);
-                    else if (cmp < 0)
+                    else if (cmp < 0) // enemy wins
                         p1.TakeDamage(damagePerWin);
 
                     if (!p1.IsAlive) HandleDeath(_player, p1);
                     if (!p2.IsAlive) HandleDeath(_enemy, p2);
+
+                    // small pause between rolls inside same duel
+                    yield return new WaitForSeconds(0.5f);
                 }
 
-                // small delay before next duel
-                if (rollDelaySeconds > 0f)
-                    yield return new WaitForSeconds(rollDelaySeconds * 0.5f);
+                // small pause between duels (next pets)
+                yield return new WaitForSeconds(0.8f);
             }
 
             var winner = (FirstAlive(_player) != null) ? Side.Player : Side.Enemy;
@@ -161,28 +174,39 @@ namespace AutoBattler
         {
             if (isEnemy)
             {
-                // Enemy attacks from LEFTMOST to right (closest to player)
+                // Enemy: pick from left to right (closest to center first)
                 for (int i = 0; i < list.Count; i++)
                     if (list[i].IsAlive) return list[i];
             }
             else
             {
-                // Player attacks from RIGHTMOST to left (closest to enemy)
+                // Player: pick from right to left (closest to center first)
                 for (int i = list.Count - 1; i >= 0; i--)
                     if (list[i].IsAlive) return list[i];
             }
             return null;
         }
-
+        
         private void HandleDeath(List<Pet> party, Pet pet)
         {
             OnPetDied?.Invoke(pet);
-            int idx = party.IndexOf(pet);
-            if (idx >= 0 && idx < party.Count - 1)
+
+            if (party.Remove(pet))
             {
-                party.RemoveAt(idx);
-                party.Add(pet);
+                if (party == _player)
+                    party.Insert(0, pet); // Player: dead to far left
+                else
+                    party.Add(pet);       // Enemy: dead to far right
             }
+
+            StartCoroutine(RebuildAfterDelay(party));
+        }
+
+        private IEnumerator RebuildAfterDelay(List<Pet> party)
+        {
+            yield return null; // one frame is enough for stability
+            var side = (party == _player) ? Side.Player : Side.Enemy;
+            OnPartyBuilt?.Invoke(side, party);
         }
 
         private void OnEnable()

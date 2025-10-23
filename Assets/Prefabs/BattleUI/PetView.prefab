@@ -274,6 +274,8 @@ MonoBehaviour:
   petImage: {fileID: 6046950478296137375}
   hpText: {fileID: 5232531242203073736}
   damageText: {fileID: 933881736334558323}
+  aliveSprite: {fileID: 21300000, guid: 9fa619a3d8d21423392c7975d0eaf36a, type: 3}
+  deadSprite: {fileID: 21300000, guid: b86909e130e8a45da9964619170c14f6, type: 3}
 --- !u!1 &6772784801653264314
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AutoBattler
 {
@@ -17,26 +16,19 @@ namespace AutoBattler
         private readonly Dictionary<Pet, PetView> _views = new();
         private readonly HashSet<Pet> _enemySide = new();
 
-        private void OnEnable()
+        void OnEnable()
         {
-            if (!battleManager)
-                battleManager = FindAnyObjectByType<BattleManager>();
-
-            if (!battleManager)
-            {
-                Debug.LogWarning("[BattleUIController] BattleManager not found!");
-                return;
-            }
+            if (!battleManager) battleManager = FindAnyObjectByType<BattleManager>();
+            if (!battleManager) return;
 
             battleManager.OnPartyBuilt += HandlePartyBuilt;
             battleManager.OnRollResolved += HandleRollResolved;
             battleManager.OnPetDied += HandlePetDied;
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             if (!battleManager) return;
-
             battleManager.OnPartyBuilt -= HandlePartyBuilt;
             battleManager.OnRollResolved -= HandleRollResolved;
             battleManager.OnPetDied -= HandlePetDied;
@@ -44,57 +36,41 @@ namespace AutoBattler
 
         private void HandlePartyBuilt(Side side, List<Pet> pets)
         {
-            RectTransform row = side == Side.Player ? playerRow : enemyRow;
-            bool isEnemy = side == Side.Enemy;
+            var row    = (side == Side.Player) ? playerRow : enemyRow;
+            bool enemy = (side == Side.Enemy);
 
-            // clear existing UI
             for (int i = row.childCount - 1; i >= 0; i--)
                 Destroy(row.GetChild(i).gameObject);
 
-            // build new PetViews
             foreach (var pet in pets)
-            {
-                var view = Instantiate(petViewPrefab, row);
-                view.Setup(pet, battleManager.damagePerWin, null, isEnemy);
-                _views[pet] = view;
+                CreateView(row, pet, isEnemy: enemy);
+        }
 
-                if (isEnemy)
-                    _enemySide.Add(pet);
-            }
+        private void CreateView(RectTransform row, Pet pet, bool isEnemy)
+        {
+            var v = Instantiate(petViewPrefab, row);
+            v.Setup(pet, battleManager.damagePerWin, null, isEnemy);
+            _views[pet] = v;
+            if (isEnemy) _enemySide.Add(pet);
         }
 
         private void HandleRollResolved(Pet p1, Pet p2, Emblem e1, Emblem e2, int winnerIndex)
         {
-            if (winnerIndex == 0)
+            if (winnerIndex == 0) // player wins → enemy took damage
             {
-                // Player wins
-                if (_views.TryGetValue(p2, out var target))
-                {
-                    target.UpdateHp();
-                    target.FlashHit();
-                }
-
-                if (_views.TryGetValue(p1, out var attacker))
-                    attacker.PlayAttackNudge(toRight: true);
+                if (_views.TryGetValue(p2, out var t)) { t.UpdateHp(); t.FlashHit(); }
             }
-            else if (winnerIndex == 1)
+            else if (winnerIndex == 1) // enemy wins → player took damage
             {
-                // Enemy wins
-                if (_views.TryGetValue(p1, out var target))
-                {
-                    target.UpdateHp();
-                    target.FlashHit();
-                }
-
-                if (_views.TryGetValue(p2, out var attacker))
-                    attacker.PlayAttackNudge(toRight: false);
+                if (_views.TryGetValue(p1, out var t)) { t.UpdateHp(); t.FlashHit(); }
             }
         }
 
         private void HandlePetDied(Pet pet)
         {
-            if (_views.TryGetValue(pet, out var view))
-                view.ShowDead();
+            if (_views.TryGetValue(pet, out var v))
+                v.ShowDeadVisual();
+            // Row gets rebuilt by BattleManager.HandleDeath → HandlePartyBuilt runs again.
         }
     }
 }

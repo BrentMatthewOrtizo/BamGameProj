@@ -12,44 +12,40 @@ namespace AutoBattler
         [SerializeField] private TextMeshProUGUI hpText;
         [SerializeField] private TextMeshProUGUI damageText;
 
+        [Header("Sprites (optional)")]
+        [SerializeField] private Sprite aliveSprite;
+        [SerializeField] private Sprite deadSprite;
+
         private Pet _pet;
         private int _displayDamage;
-
-        /// <summary>
-        /// Initialize the view for this pet.
-        /// </summary>
-        /// <param name="pet">Back-end pet data.</param>
-        /// <param name="damageToShow">Usually BattleManager.damagePerWin.</param>
-        /// <param name="sprite">Optional sprite for the pet.</param>
+        private bool _isEnemy;
+        
         public void Setup(Pet pet, int damageToShow, Sprite sprite = null, bool isEnemy = false)
         {
             _pet = pet;
             _displayDamage = damageToShow;
+            _isEnemy = isEnemy;
 
-            if (hpText) hpText.text = _pet.CurrentHP.ToString();
+            if (hpText)     hpText.text     = _pet.CurrentHP.ToString();
             if (damageText) damageText.text = _displayDamage.ToString();
 
-            if (sprite && petImage) petImage.sprite = sprite;
-
-            // Flip ONLY the sprite, not the entire GameObject
-            if (petImage != null)
+            if (petImage)
             {
-                var scale = petImage.rectTransform.localScale;
-                // Flip direction (Player faces RIGHT → +X, Enemy faces LEFT → -X)
-                scale.x = isEnemy ? 1f : -1f;
-                petImage.rectTransform.localScale = scale;
+                if (sprite) petImage.sprite = sprite;
+
+                var s = petImage.rectTransform.localScale;
+                s.x = isEnemy ? Mathf.Abs(s.x) : -Mathf.Abs(s.x);
+                s.y = Mathf.Abs(s.y);                              // keep upright
+                petImage.rectTransform.localScale = s;
+
+                petImage.color = Color.white;
             }
         }
 
+
         public void UpdateHp()
         {
-            if (_pet != null && hpText)
-                hpText.text = _pet.CurrentHP.ToString();
-        }
-
-        public void ShowDead()
-        {
-            if (petImage) petImage.color = Color.gray;
+            if (_pet != null && hpText) hpText.text = _pet.CurrentHP.ToString();
         }
 
         public void SetHighlight(bool on)
@@ -58,13 +54,14 @@ namespace AutoBattler
             petImage.color = on ? new Color(1f, 1f, 0.6f, 1f) : Color.white;
         }
 
-        /// <summary>Very simple nudge to imply an attack. Replace with tween/anim later.</summary>
-        public void PlayAttackNudge(bool toRight)
+        public void PlayAttackNudge(bool toRight) { /* intentionally empty */ }
+
+        public void ShowDeadVisual()
         {
-            var rt = (RectTransform)transform;
-            rt.anchoredPosition += new Vector2(toRight ? 14f : -14f, 0f);
+            if (deadSprite && petImage) petImage.sprite = deadSprite;
+            if (petImage) petImage.color = new Color(0.6f, 0.6f, 0.6f, 1f);
         }
-        
+
         public void FlashHit()
         {
             if (!petImage) return;
@@ -73,11 +70,10 @@ namespace AutoBattler
 
         private IEnumerator FlashCoroutine()
         {
-            Color original = petImage.color;
+            var c0 = petImage.color;
             petImage.color = Color.red;
-            yield return new WaitForSeconds(0.2f);
-            petImage.color = original;
+            yield return new WaitForSeconds(0.15f);
+            petImage.color = c0;
         }
-        
     }
 }
