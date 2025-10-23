@@ -1,82 +1,58 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace AutoBattler
 {
     public class PetView : MonoBehaviour
     {
-        [Header("Refs")]
-        [SerializeField] private TMP_Text nameLabel;
-        [SerializeField] private TMP_Text hpLabel;
-        [SerializeField] private Image bodyImage;
+        [Header("UI References")]
+        [SerializeField] private Image petImage;
+        [SerializeField] private TextMeshProUGUI hpText;
+        [SerializeField] private TextMeshProUGUI damageText;
 
-        [Header("Visuals")]
-        [SerializeField] private Color deadColor = Color.gray;
-        [SerializeField] private float attackNudge = 28f;
-        [SerializeField] private float attackTime = 0.12f;
+        private Pet _pet;
+        private int _displayDamage;
 
-        public Pet Pet { get; private set; }
-
-        Color _originalColor;
-        RectTransform _rect;
-
-        void Awake()
+        /// <summary>
+        /// Initialize the view for this pet.
+        /// </summary>
+        /// <param name="pet">Back-end pet data.</param>
+        /// <param name="damageToShow">Usually BattleManager.damagePerWin.</param>
+        /// <param name="sprite">Optional sprite for the pet.</param>
+        public void Setup(Pet pet, int damageToShow, Sprite sprite = null)
         {
-            _rect = GetComponent<RectTransform>();
-            if (bodyImage != null) _originalColor = bodyImage.color;
-        }
+            _pet = pet;
+            _displayDamage = damageToShow;
 
-        public void Setup(Pet pet)
-        {
-            Pet = pet;
-            if (nameLabel) nameLabel.text = pet.Name;
-            UpdateHp();
-            SetHighlight(false);
+            if (hpText) hpText.text = _pet.CurrentHP.ToString();
+            if (damageText) damageText.text = _displayDamage.ToString();
+
+            if (sprite && petImage) petImage.sprite = sprite;
         }
 
         public void UpdateHp()
         {
-            if (hpLabel) hpLabel.text = $"{Pet.CurrentHP}/{Pet.MaxHP}";
-        }
-
-        public void SetHighlight(bool on)
-        {
-            if (!bodyImage) return;
-            bodyImage.color = on ? new Color(1f, 1f, 0.6f) : _originalColor;
+            if (_pet != null && hpText)
+                hpText.text = _pet.CurrentHP.ToString();
         }
 
         public void ShowDead()
         {
-            if (bodyImage) bodyImage.color = deadColor;
+            if (petImage) petImage.color = Color.gray;
         }
 
+        public void SetHighlight(bool on)
+        {
+            if (!petImage) return;
+            petImage.color = on ? new Color(1f, 1f, 0.6f, 1f) : Color.white;
+        }
+
+        /// <summary>Very simple nudge to imply an attack. Replace with tween/anim later.</summary>
         public void PlayAttackNudge(bool toRight)
         {
-            if (!_rect) return;
-            StopAllCoroutines();
-            StartCoroutine(Nudge(toRight ? +attackNudge : -attackNudge));
-        }
-
-        System.Collections.IEnumerator Nudge(float dx)
-        {
-            Vector2 start = _rect.anchoredPosition;
-            Vector2 mid = start + new Vector2(dx, 0);
-            float t = 0f;
-            while (t < attackTime)
-            {
-                t += Time.unscaledDeltaTime;
-                _rect.anchoredPosition = Vector2.Lerp(start, mid, t / attackTime);
-                yield return null;
-            }
-            t = 0f;
-            while (t < attackTime)
-            {
-                t += Time.unscaledDeltaTime;
-                _rect.anchoredPosition = Vector2.Lerp(mid, start, t / attackTime);
-                yield return null;
-            }
-            _rect.anchoredPosition = start;
+            var rt = (RectTransform)transform;
+            rt.anchoredPosition += new Vector2(toRight ? 14f : -14f, 0f);
         }
     }
 }

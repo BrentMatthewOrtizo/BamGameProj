@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace AutoBattler
 {
-    [Serializable]
+    /// <summary>
+    /// Represents a single pet/monster in battle.
+    /// </summary>
     public class Pet
     {
         public string Name;
@@ -22,27 +23,15 @@ namespace AutoBattler
             if (emblems != null) Emblems.AddRange(emblems);
         }
 
-        public void Reset()
-        {
-            CurrentHP = MaxHP;
-        }
-
         public void TakeDamage(int amount)
         {
             CurrentHP = Mathf.Max(0, CurrentHP - Mathf.Max(0, amount));
         }
 
-        /// <summary>
-        /// Randomly pick any of this pet's equipped emblems (duplicates allowed).
-        /// If the pet has no emblems, default to Sword so the duel can still resolve.
-        /// </summary>
         public Emblem ChooseRandomEmblem(System.Random rng)
         {
             if (Emblems == null || Emblems.Count == 0) return Emblem.Sword;
-            var i = rng.Next(Emblems.Count); // inclusive min, exclusive max
-            return Emblems[i];
+            return Emblems[rng.Next(Emblems.Count)];
         }
-
-        public override string ToString() => $"{Name} ({CurrentHP}/{MaxHP})";
     }
 }
