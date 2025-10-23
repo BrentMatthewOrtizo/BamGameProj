@@ -115,8 +115,8 @@ namespace AutoBattler
         {
             while (FirstAlive(_player) != null && FirstAlive(_enemy) != null)
             {
-                var p1 = FirstAlive(_player);
-                var p2 = FirstAlive(_enemy);
+                var p1 = FirstAlive(_player, false); // player left → right
+                var p2 = FirstAlive(_enemy, true);   // enemy right → left
                 OnDuelStart?.Invoke(p1, p2);
 
                 while (p1.IsAlive && p2.IsAlive)
@@ -157,11 +157,20 @@ namespace AutoBattler
             OnBattleEnded?.Invoke(winner);
         }
 
-        private Pet FirstAlive(List<Pet> list)
+        private Pet FirstAlive(List<Pet> list, bool isEnemy = false)
         {
-            foreach (var pet in list)
-                if (pet.IsAlive)
-                    return pet;
+            if (isEnemy)
+            {
+                // Enemy attacks from LEFTMOST to right (closest to player)
+                for (int i = 0; i < list.Count; i++)
+                    if (list[i].IsAlive) return list[i];
+            }
+            else
+            {
+                // Player attacks from RIGHTMOST to left (closest to enemy)
+                for (int i = list.Count - 1; i >= 0; i--)
+                    if (list[i].IsAlive) return list[i];
+            }
             return null;
         }
 

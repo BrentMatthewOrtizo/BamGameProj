@@ -31,10 +31,14 @@ namespace AutoBattler
 
             if (sprite && petImage) petImage.sprite = sprite;
 
-            // Flip horizontally if this is an enemy
-            var scale = transform.localScale;
-            scale.x = isEnemy ? -1f : 1f;
-            transform.localScale = scale;
+            // Flip ONLY the sprite, not the entire GameObject
+            if (petImage != null)
+            {
+                var scale = petImage.rectTransform.localScale;
+                // Flip direction (Player faces RIGHT → +X, Enemy faces LEFT → -X)
+                scale.x = isEnemy ? 1f : -1f;
+                petImage.rectTransform.localScale = scale;
+            }
         }
 
         public void UpdateHp()
@@ -74,9 +78,6 @@ namespace AutoBattler
             yield return new WaitForSeconds(0.2f);
             petImage.color = original;
         }
-        
-        
-        
         
     }
 }
