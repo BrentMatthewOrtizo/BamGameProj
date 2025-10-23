@@ -8,7 +8,7 @@ public class HeavenToStart : MonoBehaviour
     private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
     public void BackToStartScene()
     {
-        Log.Info("Player has returned to the Start Scene.");
+        Log.Info("Player has returned back to the Start Scene.");
         SceneManager.LoadSceneAsync(0);
     }
 }
