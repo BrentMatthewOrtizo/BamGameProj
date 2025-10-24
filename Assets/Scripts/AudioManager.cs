@@ -46,12 +46,43 @@ public class AudioManager : MonoBehaviour
 
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
-
+    
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
         Log.Info($"Scene changed to {newScene.name}");
         PlayMusicForScene(newScene.name);
+
+        if (newScene.name.Contains("Game") && !string.IsNullOrEmpty(WarpManager.previousBiome))
+        {
+            // Restore biome state visually
+            SwitchBiome(WarpManager.previousBiome);
+
+            // Also fix confiner based on biome
+            RestoreConfiner(WarpManager.previousBiome);
+        }
     }
+
+    private void RestoreConfiner(string biome)
+    {
+        var confiner = FindFirstObjectByType<Unity.Cinemachine.CinemachineConfiner2D>();
+        if (confiner == null) return;
+
+        if (biome == "Forest")
+        {
+            var forestCollider = GameObject.Find("ForestCollider");
+            if (forestCollider != null)
+                confiner.BoundingShape2D = forestCollider.GetComponent<PolygonCollider2D>();
+        }
+        else if (biome == "Desert")
+        {
+            var desertCollider = GameObject.Find("DesertCollider");
+            if (desertCollider != null)
+                confiner.BoundingShape2D = desertCollider.GetComponent<PolygonCollider2D>();
+        }
+
+        confiner.InvalidateBoundingShapeCache();
+    }
+
 
     private void PlayMusicForScene(string sceneName)
     {
@@ -87,6 +118,12 @@ public class AudioManager : MonoBehaviour
             musicSource.Stop();
         }
     }
+    
+    public string GetCurrentBiome()
+    {
+        return currentBiome;
+    }
+
     
     public void SwitchBiome(string newBiome)
     {
