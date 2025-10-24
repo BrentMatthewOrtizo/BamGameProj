@@ -18530,7 +18530,6 @@ Transform:
   - {fileID: 692741656}
   - {fileID: 1966219963}
   - {fileID: 1458737456}
-  - {fileID: 889858285}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &795996990
@@ -18964,10 +18963,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1571909422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -282, y: 448.1}
+  m_SizeDelta: {x: 433.788, y: 159.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &880576926
 MonoBehaviour:
@@ -19430,7 +19429,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 889858285}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1027037401
 MonoBehaviour:
@@ -20138,7 +20137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 889858285}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1292857278
 MonoBehaviour:
@@ -22398,3 +22397,5 @@ SceneRoots:
   - {fileID: 939555337}
   - {fileID: 1571909422}
   - {fileID: 1427494694}
+  - {fileID: 1027037400}
+  - {fileID: 1292857277}

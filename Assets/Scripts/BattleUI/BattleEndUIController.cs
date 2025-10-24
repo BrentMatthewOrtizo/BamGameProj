@@ -34,6 +34,7 @@ public class BattleEndUIController : MonoBehaviour
     private InventoryViewModel _vm;
     private Pet _tameTarget;
     private string _tameTargetName;
+    private bool _hasHandledBattleEnd = false;
 
     void Start()
     {
@@ -57,9 +58,9 @@ public class BattleEndUIController : MonoBehaviour
         tameButton.onClick.RemoveListener(HandleTameButton);
     }
 
-    // -----------------------------------------------------------
+  
     //  UI Management
-    // -----------------------------------------------------------
+
     private void SetUIVisible(bool visible)
     {
         overlay.alpha = visible ? 1 : 0;
@@ -84,65 +85,78 @@ public class BattleEndUIController : MonoBehaviour
     // -----------------------------------------------------------
     private void HandleBattleEnd(Side winner)
     {
+        if (_hasHandledBattleEnd) return; // Prevent double triggers
+        _hasHandledBattleEnd = true;
         StartCoroutine(ShowBattleEndSequence(winner));
     }
 
     private IEnumerator ShowBattleEndSequence(Side winner)
     {
+        // Wait a frame or two to ensure all pets finish dying before UI appears
+        yield return new WaitForSeconds(0.1f);
+
         SetUIVisible(true);
         monsterImage.gameObject.SetActive(false);
         tameButton.gameObject.SetActive(false);
 
+        // Fade in the overlay
         yield return StartCoroutine(FadeOverlay(0f, 1f, fadeInDuration));
 
         var playerParty = ServiceResolver.Resolve<PlayerPartyModel>();
 
-        if (winner == Side.Player)
-        {
-            messageText.text = "Victory!!!";
-            yield return new WaitForSeconds(messageDisplayTime);
-
-            // If no food
-            if (_vm.FoodCount.Value <= 0)
-            {
-                yield return StartCoroutine(OutOfFoodThenExit());
-                yield break;
-            }
-
-            // If party is full
-            if (playerParty.IsFull)
-            {
-                messageText.text = "Uh oh, you have no pet space :(";
-                yield return new WaitForSeconds(exitDelaySeconds);
-                SetUIVisible(false);
-                ExitBackToPreviousScene();
-                yield break;
-            }
-
-            // Begin taming
-            messageText.text = "Woah! Tame Time!";
-            yield return new WaitForSeconds(0.5f);
-
-            var enemyPets = GetEnemyPets();
-            if (enemyPets.Count > 0)
-            {
-                _tameTarget = enemyPets[Random.Range(0, enemyPets.Count)];
-                _tameTargetName = _tameTarget.Name.ToLower();
-                monsterImage.sprite = GetEvilSpriteFor(_tameTargetName);
-                monsterImage.color = Color.white;
-                monsterImage.gameObject.SetActive(true);
-            }
-
-            tameButton.gameObject.SetActive(true);
-            RefreshTameButton();
-        }
-        else
+        
+        // Player lost — show Defeat only
+   
+        if (winner != Side.Player)
         {
             messageText.text = "Defeat...";
             yield return new WaitForSeconds(exitDelaySeconds);
             SetUIVisible(false);
+            yield return StartCoroutine(FadeOverlay(1f, 0f, 0.4f)); // smooth transition out
             ExitBackToPreviousScene();
+            yield break;
         }
+
+  
+        // Player won — start taming sequence
+     
+        messageText.text = "Victory!!!";
+        yield return new WaitForSeconds(messageDisplayTime);
+
+        // If no food
+        if (_vm.FoodCount.Value <= 0)
+        {
+            yield return StartCoroutine(OutOfFoodThenExit());
+            yield break;
+        }
+
+        // If party is full
+        if (playerParty.IsFull)
+        {
+            messageText.text = "Uh oh, you have no pet space :(";
+            yield return new WaitForSeconds(exitDelaySeconds);
+            SetUIVisible(false);
+            yield return StartCoroutine(FadeOverlay(1f, 0f, 0.4f));
+            ExitBackToPreviousScene();
+            yield break;
+        }
+
+        // Begin taming
+        messageText.text = "Woah! Tame Time!";
+        yield return new WaitForSeconds(0.5f);
+
+        var enemyPets = GetEnemyPets();
+        if (enemyPets.Count > 0)
+        {
+            _tameTarget = enemyPets[Random.Range(0, enemyPets.Count)];
+            _tameTargetName = _tameTarget.Name.ToLower();
+            monsterImage.sprite = GetEvilSpriteFor(_tameTargetName);
+            monsterImage.color = Color.white;
+            monsterImage.gameObject.SetActive(true);
+        }
+
+        tameButton.gameObject.SetActive(true);
+        RefreshTameButton();
     }
 
     // -----------------------------------------------------------
@@ -177,10 +191,13 @@ public class BattleEndUIController : MonoBehaviour
             monsterImage.color = Color.white;
 
             // Add to persistent party
-            playerParty.AddMonster(new TamedMonster(_tameTarget.Name, _tameTarget.MaxHP, _tameTarget.Damage));
+            playerParty.AddMonster(
+                new TamedMonster(_tameTarget.Name.ToLower(), _tameTarget.MaxHP, _tameTarget.Damage)
+            );
 
             yield return new WaitForSeconds(exitDelaySeconds);
             SetUIVisible(false);
+            yield return StartCoroutine(FadeOverlay(1f, 0f, 0.4f));
             ExitBackToPreviousScene();
         }
         else
@@ -205,6 +222,7 @@ public class BattleEndUIController : MonoBehaviour
         messageText.text = "You ran out of food...";
         yield return new WaitForSeconds(exitDelaySeconds);
         SetUIVisible(false);
+        yield return StartCoroutine(FadeOverlay(1f, 0f, 0.4f));
         ExitBackToPreviousScene();
     }
 
