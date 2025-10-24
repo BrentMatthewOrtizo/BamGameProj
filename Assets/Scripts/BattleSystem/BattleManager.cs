@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
+// add these so we can resolve the MVVM party model
+using Game.Runtime;
+using Game.com.game399.shared.Models;
+
 namespace AutoBattler
 {
     public enum Side { Player, Enemy }
@@ -12,10 +16,10 @@ namespace AutoBattler
     {
         [Header("Config")]
         [Range(1, 5)] public int maxPartySize = 3;
-        public int damagePerWin = 1;
+        public int damagePerWin = 1; // kept for compatibility; not used in calc anymore
         public int rngSeed = 0;
         public bool autoStart = true;
-        
+
         [Header("Audio")]
         [SerializeField] private AudioSource bgmSource;
         [SerializeField] private AudioClip battleMusic;
@@ -28,17 +32,9 @@ namespace AutoBattler
         public float postRevealDelay = 0.5f;
         public float postDamageDelay = 2.0f;
 
-        [Header("Player Party (Inspector)")]
-        public List<PetConfig> playerPartyConfig = new()
-        {
-            new PetConfig("Fox", 5,  Emblem.Sword, Emblem.Sword),
-            new PetConfig("Camel", 6, Emblem.Shield),
-            new PetConfig("Chimera", 7, Emblem.Magic, Emblem.Magic),
-        };
-
         [Header("Enemy Party (Generated)")]
-        public Vector2Int enemyHpRange = new(5, 7);
-        public Vector2Int enemyEmblemCount = new(1, 3);
+        public Vector2Int enemyHpRange = new(5, 7);        // not used now; kept for inspector
+        public Vector2Int enemyEmblemCount = new(1, 3);    // not used now; kept for inspector
 
         // Runtime lists
         private readonly List<Pet> _player = new();
@@ -76,7 +72,7 @@ namespace AutoBattler
         private void Start()
         {
             _rng = (rngSeed == 0) ? new Random() : new Random(rngSeed);
-            
+
             // Play background music
             if (bgmSource && battleMusic)
             {
@@ -100,34 +96,54 @@ namespace AutoBattler
             _player.Clear();
             _enemy.Clear();
             BuildParties();
-            OnBattleStart?.Invoke(); // re-show popup on retry
+            OnBattleStart?.Invoke();
             StartCoroutine(BattleLoop());
         }
 
         private void BuildParties()
         {
             _player.Clear();
-            for (int i = 0; i < Mathf.Min(maxPartySize, playerPartyConfig.Count); i++)
+
+            // Pull persistent player party (starter Fox 5 HP / 2 DMG is ensured by the model)
+            var playerPartyModel = ServiceResolver.Resolve<PlayerPartyModel>();
+            playerPartyModel.InitializeDefaultPartyIfEmpty();
+
+            // Convert each tamed monster into a Pet (give them all three emblems for now)
+            foreach (var tm in playerPartyModel.Party)
             {
-                var c = playerPartyConfig[i];
-                _player.Add(new Pet(c.name, c.maxHp, c.emblems));
+                _player.Add(new Pet(
+                    tm.name,
+                    tm.maxHp,
+                    new[] { Emblem.Sword, Emblem.Shield, Emblem.Magic },
+                    tm.damage
+                ));
             }
 
-            // Reverse for correct display (rightmost is attacker)
+            // Reverse for correct display (rightmost attacks first on player side)
             _player.Reverse();
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
+            // -------- Enemy generation: 1–3 units, HP 1–5, DMG 1–3, 1–3 emblems --------
             _enemy.Clear();
-            var names = new[] { "Cricket", "Pig", "Otter", "Beetle", "Crab", "Fish" };
-            for (int i = 0; i < maxPartySize; i++)
+            var enemyNames = new[] { "Camel", "Chimera", "Fox" };
+            int enemyCount = _rng.Next(1, 4); // 1..3 inclusive
+
+            for (int i = 0; i < enemyCount; i++)
             {
-                int hp = _rng.Next(enemyHpRange.x, enemyHpRange.y + 1);
-                int eCnt = _rng.Next(enemyEmblemCount.x, enemyEmblemCount.y + 1);
+                string name = enemyNames[_rng.Next(enemyNames.Length)];
+
+                int hp = _rng.Next(1, 6);      // 1–5 HP
+                int damage = _rng.Next(1, 4);  // 1–3 DMG
+
+                int eCnt = _rng.Next(1, 4);    // 1–3 emblems
                 var ems = new List<Emblem>(eCnt);
-                for (int j = 0; j < eCnt; j++) ems.Add((Emblem)_rng.Next(0, 3));
-                string name = names[_rng.Next(names.Length)];
-                _enemy.Add(new Pet(name, hp, ems));
+                for (int j = 0; j < eCnt; j++)
+                    ems.Add((Emblem)_rng.Next(0, 3)); // 0..2 -> Sword/Shield/Magic
+
+                _enemy.Add(new Pet(name, hp, ems, damage));
+                Debug.Log($"[Enemy] Spawned {name} (HP {hp}, DMG {damage})");
             }
+
             OnPartyBuilt?.Invoke(Side.Enemy, _enemy);
         }
 
@@ -164,10 +180,10 @@ namespace AutoBattler
                     }
                     while (cmp == 0);
 
-                    // Apply results
+                    // Apply results (use each pet's Damage stat)
                     if (cmp > 0)
                     {
-                        p2.TakeDamage(damagePerWin);
+                        p2.TakeDamage(p1.Damage);
                         OnDamageApplied?.Invoke(p1, p2, 0);
                         if (!p2.IsAlive)
                         {
@@ -178,7 +194,7 @@ namespace AutoBattler
                     }
                     else if (cmp < 0)
                     {
-                        p1.TakeDamage(damagePerWin);
+                        p1.TakeDamage(p2.Damage);
                         OnDamageApplied?.Invoke(p1, p2, 1);
                         if (!p1.IsAlive)
                         {
@@ -194,10 +210,25 @@ namespace AutoBattler
                 yield return new WaitForSeconds(preDuelDelay);
             }
 
-            var winner = (FirstAlive(_player) != null) ? Side.Player : Side.Enemy;
+            // FIXED WINNER CHECK (prevents Victory flash)
+            yield return new WaitForSeconds(0.05f); // allow last deaths to process
+
+            bool playerAlive = FirstAlive(_player) != null;
+            bool enemyAlive = FirstAlive(_enemy) != null;
+
+            Side winner;
+
+            if (playerAlive && !enemyAlive)
+                winner = Side.Player;
+            else if (enemyAlive && !playerAlive)
+                winner = Side.Enemy;
+            else
+                winner = Side.Enemy; // both died = defeat by default
+
+            Debug.Log($"[BattleEnd] Winner = {winner}");
             OnBattleEnded?.Invoke(winner);
 
-            // Fade out BGM
+            // Fade out BGM smoothly
             if (bgmSource)
                 StartCoroutine(FadeOutBgm(1.5f));
         }

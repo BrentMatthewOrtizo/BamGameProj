@@ -14,12 +14,23 @@ namespace AutoBattler
         [SerializeField] private TextMeshProUGUI damageText;
         [SerializeField] private Image emblemImage;
 
-        [Header("Sprites")]
+        [Header("Sprites (Player / Neutral)")]
         [SerializeField] private Sprite aliveSprite;
         [SerializeField] private Sprite deadSprite;
         [SerializeField] private Sprite swordSprite;
         [SerializeField] private Sprite shieldSprite;
         [SerializeField] private Sprite magicSprite;
+
+        [Header("Enemy Sprite Variants")]
+        [SerializeField] private Sprite evilFox;
+        [SerializeField] private Sprite evilCamel;
+        [SerializeField] private Sprite evilChimera;
+        [SerializeField] private Sprite evilPig;
+
+        [Header("Enemy Dead Variants")]
+        [SerializeField] private Sprite deadFox;
+        [SerializeField] private Sprite deadCamel;
+        [SerializeField] private Sprite deadChimera;
 
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
@@ -31,6 +42,9 @@ namespace AutoBattler
         private Coroutine _emblemRoutine;
         private bool _spinning;
 
+        // ---------------------------------------------------
+        // Setup logic (assign sprites, direction, etc.)
+        // ---------------------------------------------------
         public void Setup(Pet pet, int damageToShow, Sprite sprite = null, bool isEnemy = false)
         {
             _pet = pet;
@@ -38,11 +52,18 @@ namespace AutoBattler
             _isEnemy = isEnemy;
 
             if (hpText) hpText.text = Mathf.Max(0, _pet.CurrentHP).ToString();
-            if (damageText) damageText.text = _displayDamage.ToString();
+            if (damageText) damageText.text = _pet.Damage.ToString();
 
             if (petImage)
             {
-                if (sprite) petImage.sprite = sprite;
+                if (sprite)
+                    petImage.sprite = sprite;
+                else if (isEnemy)
+                    petImage.sprite = GetEvilSpriteFor(pet.Name);
+                else
+                    petImage.sprite = aliveSprite;
+
+                // Flip enemies horizontally
                 var s = petImage.rectTransform.localScale;
                 s.x = isEnemy ? -Mathf.Abs(s.x) : Mathf.Abs(s.x);
                 petImage.rectTransform.localScale = s;
@@ -53,7 +74,34 @@ namespace AutoBattler
             if (!_pet.IsAlive) ShowDeadVisual();
         }
 
-        // --- Emblem Rolling ---
+        // ---------------------------------------------------
+        // Evil Sprite Selector
+        // ---------------------------------------------------
+        private Sprite GetEvilSpriteFor(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("fox")) return evilFox;
+            if (name.Contains("camel")) return evilCamel;
+            if (name.Contains("chimera")) return evilChimera;
+            if (name.Contains("pig")) return evilPig;
+            return aliveSprite;
+        }
+
+        // ---------------------------------------------------
+        // Dead Sprite Selector
+        // ---------------------------------------------------
+        private Sprite GetDeadSpriteFor(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("fox")) return deadFox;
+            if (name.Contains("camel")) return deadCamel;
+            if (name.Contains("chimera")) return deadChimera;
+            return deadSprite;
+        }
+
+        // ---------------------------------------------------
+        // Emblem rolling visual logic
+        // ---------------------------------------------------
         public void BeginEmblemRoll(float intervalSeconds)
         {
             if (!emblemImage || _pet == null || _pet.Emblems == null || _pet.Emblems.Count == 0)
@@ -125,7 +173,9 @@ namespace AutoBattler
             _ => null
         };
 
-        // --- Damage & Death Visuals ---
+        // ---------------------------------------------------
+        // Damage / Death Visuals
+        // ---------------------------------------------------
         public void UpdateHp()
         {
             if (_pet != null && hpText)
@@ -150,7 +200,7 @@ namespace AutoBattler
             if (audioSource != null && hitSounds != null && hitSounds.Length > 0)
             {
                 var clip = hitSounds[Random.Range(0, hitSounds.Length)];
-                audioSource.pitch = Random.Range(0.95f, 1.05f); // subtle variation
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
                 audioSource.PlayOneShot(clip);
             }
         }
@@ -166,7 +216,9 @@ namespace AutoBattler
         public void ShowDeadVisual()
         {
             if (!petImage) return;
-            if (deadSprite) petImage.sprite = deadSprite;
+
+            // Use variant-specific dead sprite
+            petImage.sprite = _isEnemy ? GetDeadSpriteFor(_pet.Name) : deadSprite;
             petImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
 
             var rt = petImage.rectTransform;

@@ -47,12 +47,42 @@ public class AudioManager : MonoBehaviour
 
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
-
+    
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
         Log.Info($"Scene changed to {newScene.name}");
         PlayMusicForScene(newScene.name);
+
+        // ✅ Restore biome after returning from battle
+        if (newScene.name.Contains("Game") && !string.IsNullOrEmpty(WarpManager.previousBiome))
+        {
+            SwitchBiome(WarpManager.previousBiome);
+            RestoreConfiner(WarpManager.previousBiome);
+        }
     }
+
+    private void RestoreConfiner(string biome)
+    {
+        var confiner = FindFirstObjectByType<Unity.Cinemachine.CinemachineConfiner2D>();
+        if (confiner == null) return;
+
+        // Tag your PolygonColliders appropriately
+        if (biome == "Forest")
+        {
+            var forestCollider = GameObject.FindWithTag("ForestConfiner");
+            if (forestCollider != null)
+                confiner.BoundingShape2D = forestCollider.GetComponent<PolygonCollider2D>();
+        }
+        else if (biome == "Desert")
+        {
+            var desertCollider = GameObject.FindWithTag("DesertConfiner");
+            if (desertCollider != null)
+                confiner.BoundingShape2D = desertCollider.GetComponent<PolygonCollider2D>();
+        }
+
+        confiner.InvalidateBoundingShapeCache();
+    }
+
 
     private void PlayMusicForScene(string sceneName)
     {
@@ -94,8 +124,13 @@ public class AudioManager : MonoBehaviour
             musicSource.Stop();
         }
     }
+    
+    public string GetCurrentBiome()
+    {
+        return currentBiome;
+    }
 
-    // ------------ Manual Biome Swap (Same Scene) ------------
+    
     public void SwitchBiome(string newBiome)
     {
         if (SceneManager.GetActiveScene().name != "Game") return;
