@@ -16,6 +16,12 @@ namespace AutoBattler
         [Header("Prefabs")]
         [SerializeField] private PetView petViewPrefab;
 
+        // 👇 NEW: tamed (player) sprites
+        [Header("Player (Tamed) Sprites")]
+        [SerializeField] private Sprite tamedFox;
+        [SerializeField] private Sprite tamedCamel;
+        [SerializeField] private Sprite tamedChimera;
+
         private readonly Dictionary<Pet, PetView> _views = new();
         private readonly HashSet<Pet> _enemySide = new();
 
@@ -24,35 +30,29 @@ namespace AutoBattler
             if (!battleManager) battleManager = FindAnyObjectByType<BattleManager>();
             if (!battleManager) return;
 
-            battleManager.OnBattleStart += HandleBattleStart;
-            battleManager.OnPartyBuilt += HandlePartyBuilt;
-            battleManager.OnRollStart += HandleRollStart;
-            battleManager.OnRollResolved += HandleRollResolved;
-            battleManager.OnDamageApplied += HandleDamageApplied;
-            battleManager.OnPetDied += HandlePetDied;
-            battleManager.OnPetKilledFinal += HandlePetKilledFinal;
+            battleManager.OnBattleStart       += HandleBattleStart;
+            battleManager.OnPartyBuilt        += HandlePartyBuilt;
+            battleManager.OnRollStart         += HandleRollStart;
+            battleManager.OnRollResolved      += HandleRollResolved;
+            battleManager.OnDamageApplied     += HandleDamageApplied;
+            battleManager.OnPetDied           += HandlePetDied;
+            battleManager.OnPetKilledFinal    += HandlePetKilledFinal;
         }
 
         void OnDisable()
         {
             if (!battleManager) return;
 
-            battleManager.OnBattleStart -= HandleBattleStart;
-            battleManager.OnPartyBuilt -= HandlePartyBuilt;
-            battleManager.OnRollStart -= HandleRollStart;
-            battleManager.OnRollResolved -= HandleRollResolved;
-            battleManager.OnDamageApplied -= HandleDamageApplied;
-            battleManager.OnPetDied -= HandlePetDied;
-            battleManager.OnPetKilledFinal -= HandlePetKilledFinal;
+            battleManager.OnBattleStart       -= HandleBattleStart;
+            battleManager.OnPartyBuilt        -= HandlePartyBuilt;
+            battleManager.OnRollStart         -= HandleRollStart;
+            battleManager.OnRollResolved      -= HandleRollResolved;
+            battleManager.OnDamageApplied     -= HandleDamageApplied;
+            battleManager.OnPetDied           -= HandlePetDied;
+            battleManager.OnPetKilledFinal    -= HandlePetKilledFinal;
         }
 
-        // ------------------------------------------
-        // Popup intro animation
-        // ------------------------------------------
-        private void HandleBattleStart()
-        {
-            StartCoroutine(ShowBattlePopup());
-        }
+        private void HandleBattleStart() => StartCoroutine(ShowBattlePopup());
 
         private IEnumerator ShowBattlePopup()
         {
@@ -63,7 +63,6 @@ namespace AutoBattler
             battlePopupText.text = "Battle Encountered!";
             battlePopupText.transform.localScale = Vector3.one * 0.5f;
 
-            // Pop scale animation
             Vector3 targetScale = Vector3.one * 1.2f;
             float t = 0f;
             while (t < 1f)
@@ -73,10 +72,8 @@ namespace AutoBattler
                 yield return null;
             }
 
-            // Hold text on screen briefly
             yield return new WaitForSeconds(1.5f);
 
-            // Fade out / shrink away
             t = 0f;
             while (t < 1f)
             {
@@ -85,14 +82,10 @@ namespace AutoBattler
                 yield return null;
             }
 
-            // Reset
             battlePopupText.alpha = 1f;
             battlePopupText.gameObject.SetActive(false);
         }
 
-        // ------------------------------------------
-        // Party / Roll Handling
-        // ------------------------------------------
         private void HandlePartyBuilt(Side side, List<Pet> pets)
         {
             var row = (side == Side.Player) ? playerRow : enemyRow;
@@ -107,10 +100,25 @@ namespace AutoBattler
 
         private void CreateView(RectTransform row, Pet pet, bool isEnemy)
         {
+            // 👇 Choose a sprite only for player; enemies handled by PetView internally
+            Sprite spriteToUse = null;
+            if (!isEnemy)
+                spriteToUse = GetPlayerSpriteFor(pet.Name);
+
             var v = Instantiate(petViewPrefab, row);
-            v.Setup(pet, battleManager.damagePerWin, null, isEnemy);
+            v.Setup(pet, battleManager.damagePerWin, spriteToUse, isEnemy);
             _views[pet] = v;
             if (isEnemy) _enemySide.Add(pet);
+        }
+
+        // 👇 NEW: simple name->tamed sprite mapping
+        private Sprite GetPlayerSpriteFor(string petName)
+        {
+            var n = (petName ?? "").ToLowerInvariant();
+            if (n.Contains("camel"))   return tamedCamel;
+            if (n.Contains("chimera")) return tamedChimera;
+            if (n.Contains("fox"))     return tamedFox;
+            return tamedFox; // fallback
         }
 
         private void HandleRollStart(Pet p1, Pet p2)

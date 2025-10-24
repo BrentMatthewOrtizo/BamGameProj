@@ -1327,6 +1327,9 @@ MonoBehaviour:
   enemyRow: {fileID: 72530789}
   battlePopupText: {fileID: 170457124}
   petViewPrefab: {fileID: 8238854572584055220, guid: 4c8eb7dec21e242a6a06ec2cc1b59f95, type: 3}
+  tamedFox: {fileID: 21300000, guid: 9fa619a3d8d21423392c7975d0eaf36a, type: 3}
+  tamedCamel: {fileID: 21300000, guid: 2198c2ca03ee447fd9990fb085a2995e, type: 3}
+  tamedChimera: {fileID: 21300000, guid: 4969187e2a57a4fb0ae54d93c1405e78, type: 3}
 --- !u!1 &1927757017
 GameObject:
   m_ObjectHideFlags: 0
