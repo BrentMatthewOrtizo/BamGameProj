@@ -52,7 +52,7 @@ namespace Game.com.game399.shared.Models
         {
             if (party.Count == 0)
             {
-                party.Add(new TamedMonster("Fox", 5, 2));
+                party.Add(new TamedMonster("Fox", 6, 3));
                 Debug.Log("[PlayerPartyModel] Initialized with starter Fox (5 HP, 2 DMG).");
             }
         }

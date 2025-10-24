@@ -123,7 +123,7 @@ namespace AutoBattler
             _player.Reverse();
             OnPartyBuilt?.Invoke(Side.Player, _player);
 
-            // -------- Enemy generation: 1–3 units, HP 1–9, DMG 1–9, 1–3 emblems --------
+            // -------- Enemy generation: 1–3 units, HP 1–5, DMG 1–3, 1–3 emblems --------
             _enemy.Clear();
             var enemyNames = new[] { "Camel", "Chimera", "Fox" };
             int enemyCount = _rng.Next(1, 4); // 1..3 inclusive
@@ -132,10 +132,10 @@ namespace AutoBattler
             {
                 string name = enemyNames[_rng.Next(enemyNames.Length)];
 
-                int hp = _rng.Next(1, 10);      // 1..9 inclusive
-                int damage = _rng.Next(1, 4);  // 1..9 inclusive
+                int hp = _rng.Next(1, 6);      // 1–5 HP
+                int damage = _rng.Next(1, 4);  // 1–3 DMG
 
-                int eCnt = _rng.Next(1, 4);     // 1..3 emblems
+                int eCnt = _rng.Next(1, 4);    // 1–3 emblems
                 var ems = new List<Emblem>(eCnt);
                 for (int j = 0; j < eCnt; j++)
                     ems.Add((Emblem)_rng.Next(0, 3)); // 0..2 -> Sword/Shield/Magic
@@ -210,10 +210,25 @@ namespace AutoBattler
                 yield return new WaitForSeconds(preDuelDelay);
             }
 
-            var winner = (FirstAlive(_player) != null) ? Side.Player : Side.Enemy;
+            // FIXED WINNER CHECK (prevents Victory flash)
+            yield return new WaitForSeconds(0.05f); // allow last deaths to process
+
+            bool playerAlive = FirstAlive(_player) != null;
+            bool enemyAlive = FirstAlive(_enemy) != null;
+
+            Side winner;
+
+            if (playerAlive && !enemyAlive)
+                winner = Side.Player;
+            else if (enemyAlive && !playerAlive)
+                winner = Side.Enemy;
+            else
+                winner = Side.Enemy; // both died = defeat by default
+
+            Debug.Log($"[BattleEnd] Winner = {winner}");
             OnBattleEnded?.Invoke(winner);
 
-            // Fade out BGM
+            // Fade out BGM smoothly
             if (bgmSource)
                 StartCoroutine(FadeOutBgm(1.5f));
         }
