@@ -21,8 +21,7 @@ jobs:
             9.0.x
 
       - name: Restore
-        working-directory: src/Shared
-        run: dotnet restore Game399.sln
+        run: dotnet restore BamGameProj.sln
 
       - name: Build
         working-directory: src/Shared
