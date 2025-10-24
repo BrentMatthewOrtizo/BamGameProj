@@ -26,8 +26,9 @@ jobs:
 
       - name: Build
         working-directory: src/Shared
-        run: dotnet build Game399.sln --configuration Release --no-restore
+        run: dotnet build Game399.sln --configuration Debug --no-restore
 
       - name: Test
         working-directory: src/Shared
-        run: dotnet test Game399.sln --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test Game399.sln --configuration Debug --no-build --logger "trx;LogFileName=test_results.trx"
+
