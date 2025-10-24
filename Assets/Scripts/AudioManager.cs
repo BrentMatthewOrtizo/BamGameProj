@@ -14,12 +14,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip startScreenMusic;
     public AudioClip desertMusic;
     public AudioClip forestMusic;
+    public AudioClip heavenSound;
 
     [Header("Sound Effects")]
     public AudioClip jumpSFX;
     public AudioClip itemPickupSFX;
     public AudioClip obeliskInteractSFX;
     public AudioClip startScreenButton;
+    public AudioClip yaySFX;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;
@@ -35,7 +37,6 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.loop = true;
@@ -103,6 +104,12 @@ public class AudioManager : MonoBehaviour
             clipToPlay = null; // No music in battle scene
             currentBiome = "None";
         }
+        else if (sceneName.Contains("Heaven"))
+        {
+            clipToPlay = heavenSound;
+            PlayYay();
+            currentBiome = "None";
+        }
 
         if (clipToPlay != null)
         {
@@ -148,6 +155,8 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+
+    // ------------ SOUND EFFECTS ------------
     public void PlayJumpSFX()
     {
         sfxSource.PlayOneShot(jumpSFX);
@@ -166,5 +175,10 @@ public class AudioManager : MonoBehaviour
     public void PlayStartScreenButton()
     {
         sfxSource.PlayOneShot(startScreenButton);
+    }
+    
+    public void PlayYay()
+    {
+        sfxSource.PlayOneShot(yaySFX);
     }
 }

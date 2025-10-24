@@ -21,13 +21,12 @@ jobs:
             9.0.x
 
       - name: Restore
-        working-directory: src/Shared
-        run: dotnet restore Game399.sln
+        run: dotnet restore BamGameProj.sln
 
       - name: Build
-        working-directory: src/Shared
-        run: dotnet build Game399.sln --configuration Release --no-restore
+        run: dotnet build BamGameProj.sln --configuration Debug --no-restore
 
       - name: Test
-        working-directory: src/Shared
-        run: dotnet test Game399.sln --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test BamGameProj.sln --configuration Debug --no-build --logger "trx;LogFileName=test_results.trx"
+
+
