@@ -38,6 +38,8 @@ public class DesertToForest : MonoBehaviour, IInteractable
             confiner.InvalidateBoundingShapeCache();
         }
 
+        WarpManager.previousBiome = "Forest";
         AudioManager.Instance?.SwitchBiome("Forest");
+
     }
 }
