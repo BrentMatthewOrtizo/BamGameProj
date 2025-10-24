@@ -52,12 +52,10 @@ public class AudioManager : MonoBehaviour
         Log.Info($"Scene changed to {newScene.name}");
         PlayMusicForScene(newScene.name);
 
+        // ✅ Restore biome after returning from battle
         if (newScene.name.Contains("Game") && !string.IsNullOrEmpty(WarpManager.previousBiome))
         {
-            // Restore biome state visually
             SwitchBiome(WarpManager.previousBiome);
-
-            // Also fix confiner based on biome
             RestoreConfiner(WarpManager.previousBiome);
         }
     }
@@ -67,15 +65,16 @@ public class AudioManager : MonoBehaviour
         var confiner = FindFirstObjectByType<Unity.Cinemachine.CinemachineConfiner2D>();
         if (confiner == null) return;
 
+        // Tag your PolygonColliders appropriately
         if (biome == "Forest")
         {
-            var forestCollider = GameObject.Find("ForestCollider");
+            var forestCollider = GameObject.FindWithTag("ForestConfiner");
             if (forestCollider != null)
                 confiner.BoundingShape2D = forestCollider.GetComponent<PolygonCollider2D>();
         }
         else if (biome == "Desert")
         {
-            var desertCollider = GameObject.Find("DesertCollider");
+            var desertCollider = GameObject.FindWithTag("DesertConfiner");
             if (desertCollider != null)
                 confiner.BoundingShape2D = desertCollider.GetComponent<PolygonCollider2D>();
         }

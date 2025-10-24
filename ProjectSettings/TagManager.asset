@@ -11,6 +11,8 @@ TagManager:
   - ResumeButton
   - Food
   - Inventory
+  - DesertConfiner
+  - ForestConfiner
   layers:
   - Default
   - TransparentFX
